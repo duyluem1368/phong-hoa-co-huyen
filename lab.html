@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Phòng thí nghiệm Hóa học ảo THPT của cô Nguyễn Thị Huyền.">
+  <meta name="theme-color" content="#30245e">
+  <title>Phòng thí nghiệm ảo | Phòng Hóa Cô Huyền</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="lab.css">
+</head>
+<body class="lab-page">
+  <header class="site-header lab-header">
+    <a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a>
+    <a class="back-home" href="index.html">← Về trang chủ</a>
+  </header>
+
+  <main>
+    <section class="lab-hero">
+      <div><span class="eyebrow">PHÒNG THÍ NGHIỆM ẢO</span><h1>Trộn chất. Quan sát.<br><em>Hiểu phản ứng.</em></h1><p>Chọn hai chất trong chương trình THPT và khám phá hiện tượng, phương trình cùng bản chất phản ứng.</p></div>
+      <div class="lab-stats"><b id="reaction-count">40+</b><span>phản ứng<br>đã kiểm duyệt</span></div>
+    </section>
+
+    <section class="safety-note"><span>✓</span><div><b>Môi trường học tập an toàn</b><p>Đây là mô phỏng giáo dục, không thay thế thí nghiệm thật. Không tự ý trộn hóa chất ngoài đời thực.</p></div></section>
+
+    <section class="lab-workspace">
+      <aside class="chemical-shelf">
+        <div class="shelf-title"><div><span class="eyebrow">KỆ HÓA CHẤT</span><h2>Chọn chất</h2></div><button id="clear-btn" type="button">Làm lại</button></div>
+        <label class="search-box">⌕ <input id="chemical-search" type="search" placeholder="Tìm tên hoặc công thức…" autocomplete="off"></label>
+        <div class="category-tabs" role="group" aria-label="Nhóm chất">
+          <button class="active" data-category="all">Tất cả</button><button data-category="acid">Axit</button><button data-category="base">Bazơ</button><button data-category="salt">Muối</button><button data-category="metal">Kim loại</button><button data-category="other">Khác</button>
+        </div>
+        <div class="chemical-grid" id="chemical-grid"></div>
+      </aside>
+
+      <div class="experiment-area">
+        <div class="step-label">BÀN THÍ NGHIỆM</div>
+        <div class="selection-slots">
+          <div class="slot" id="slot-a"><span class="slot-number">1</span><div><small>CHẤT THỨ NHẤT</small><b>Chưa chọn</b></div></div>
+          <span class="plus">+</span>
+          <div class="slot" id="slot-b"><span class="slot-number">2</span><div><small>CHẤT THỨ HAI</small><b>Chưa chọn</b></div></div>
+        </div>
+
+        <div class="bench">
+          <div class="shelf-line"></div>
+          <div class="flask flask-a"><div class="liquid"></div><span>A</span></div>
+          <div class="pour-stream"></div>
+          <div class="reaction-vessel" id="vessel">
+            <div class="bubbles"></div><div class="precipitate"></div><div class="solution"></div>
+          </div>
+          <div class="burner"><i></i></div>
+        </div>
+
+        <label class="condition-select">Điều kiện
+          <select id="condition"><option value="normal">Điều kiện thường</option><option value="heat">Đun nóng</option><option value="burn">Đốt cháy trong O₂</option></select>
+        </label>
+        <button class="run-button" id="run-btn" type="button" disabled><span>⚗</span> Tiến hành phản ứng</button>
+      </div>
+    </section>
+
+    <section class="result-panel" id="result-panel" aria-live="polite">
+      <div class="empty-result"><span>⌁</span><h2>Chưa có thí nghiệm</h2><p>Chọn hai chất ở kệ bên trái, sau đó nhấn “Tiến hành phản ứng”.</p></div>
+    </section>
+
+    <section class="quick-challenges">
+      <div><span class="eyebrow">THỬ NGAY</span><h2>Gợi ý thí nghiệm</h2></div>
+      <div class="challenge-list">
+        <button data-a="Fe" data-b="CuSO4"><span>01</span><b>Sắt và đồng(II) sulfate</b><small>Phản ứng thế</small></button>
+        <button data-a="AgNO3" data-b="NaCl"><span>02</span><b>Hai dung dịch không màu</b><small>Tạo kết tủa</small></button>
+        <button data-a="HCl" data-b="Na2CO3"><span>03</span><b>Axit và muối carbonate</b><small>Khí thoát ra</small></button>
+      </div>
+    </section>
+  </main>
+  <footer><a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a><p>Trường THPT Xuân Phương</p><p>© 2026 Phòng Hóa Cô Huyền</p></footer>
+  <script src="lab.js"></script>
+</body>
+</html>

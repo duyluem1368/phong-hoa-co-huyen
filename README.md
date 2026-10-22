@@ -2,6 +2,8 @@
 
 Website MVP tĩnh dành cho giáo viên Hóa học THPT.
 
+Bao gồm phòng thí nghiệm ảo với thư viện phản ứng được kiểm duyệt, mô phỏng hiện tượng, phương trình cân bằng và giải thích bản chất.
+
 ## Chạy trên máy
 
 ```bash
