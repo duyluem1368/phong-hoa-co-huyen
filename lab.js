@@ -213,13 +213,15 @@ function updateSlots(){
   document.querySelector('#run-btn').disabled=chosen.length!==2;
 }
 function clearLab(){chosen=[];updateSlots();renderChemicals();document.querySelector('#result-panel').innerHTML='<div class="empty-result"><span>⌁</span><h2>Chưa có thí nghiệm</h2><p>Chọn hai chất ở kệ bên trái, sau đó nhấn “Tiến hành phản ứng”.</p></div>';resetVessel();}
-function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting','reaction-strong','reaction-color','reaction-none');document.querySelector('#reaction-status').textContent='Sẵn sàng thí nghiệm';}
+function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting','reaction-strong','reaction-color','reaction-none');document.querySelector('#reaction-status').textContent='Sẵn sàng thí nghiệm';window.lab3D?.reset();}
 function runReaction(){
   resetVessel(); const condition=document.querySelector('#condition').value;
   const reaction=reactions.find(r=>normalizePair(r.a,r.b)===normalizePair(...chosen)&&(r.condition===condition||r.condition==='normal'));
   const fallback=reactions.find(r=>normalizePair(r.a,r.b)===normalizePair(...chosen));
   const area=document.querySelector('.experiment-area');
   area.classList.add('reacting'); document.querySelector('#reaction-status').textContent='Đang rót hóa chất…';
+  const firstChemical=chemicals.find(c=>c.id===chosen[0]);
+  window.lab3D?.pour(firstChemical?.color||'#a9dbe8');
   document.querySelector('#run-btn').disabled=true;
   setTimeout(()=>{document.querySelector('#reaction-status').textContent='Đang quan sát phản ứng…';},850);
   setTimeout(()=>showResult(reaction, fallback, condition),1600);
@@ -231,6 +233,7 @@ function showResult(r,fallback,condition){
   if(!r){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa có dữ liệu';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">THƯ VIỆN ĐANG MỞ RỘNG</span><h2>Chưa có dữ liệu cho cặp chất này</h2></div><span class="result-badge none">Chưa xác định</span></div><div class="equation">${format(chosen[0])} + ${format(chosen[1])} → ?</div><div class="result-item"><small>LƯU Ý</small><p>“Chưa có dữ liệu” không đồng nghĩa với “không phản ứng”. Hãy hỏi giáo viên trước khi kết luận hoặc thử ngoài đời thực.</p></div>`;return;}
   document.querySelector('#reaction-status').textContent=labelType(r.type);
   v.querySelector('.solution').style.background=r.color;
+  window.lab3D?.react({type:r.type,color:r.color,condition});
   if(r.type==='gas')v.classList.add('gas');
   if(r.type==='precipitate')v.classList.add('precipitate');
   if(r.type==='color')area.classList.add('reaction-color');
