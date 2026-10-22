@@ -201,6 +201,33 @@ const reactions = [
   R('I2','NaOH','3I₂ + 6NaOH → 5NaI + NaIO₃ + 3H₂O','Màu iodine mất dần khi đun với kiềm.','color','Iodine tự oxi hóa–khử tạo iodide và iodate.','#e9eef0','heat','Chỉ mô phỏng phản ứng với hóa chất có kiểm soát.')
 ];
 
+// Phủ đủ các phản ứng trung hòa cơ bản giữa mọi axit và hydroxide có trên kệ.
+// Chỉ thêm cặp còn thiếu để các biến thể tỉ lệ/điều kiện viết riêng ở trên luôn được ưu tiên.
+const neutralizationCoverage = [
+  R('HCl','KOH','HCl + KOH → KCl + H₂O','Dung dịch ấm lên.','heat','H⁺ + OH⁻ → H₂O.'),
+  R('HCl','Ba(OH)2','2HCl + Ba(OH)₂ → BaCl₂ + 2H₂O','Dung dịch ấm lên.','heat','Axit mạnh trung hòa bazơ mạnh.'),
+  R('HCl','Cu(OH)2','2HCl + Cu(OH)₂ → CuCl₂ + 2H₂O','Kết tủa xanh tan, tạo dung dịch xanh lục.','color','Cu(OH)₂ phản ứng với axit tạo muối và nước.','#83cbb6'),
+  R('H2SO4','Ca(OH)2','H₂SO₄ + Ca(OH)₂ → CaSO₄↓ + 2H₂O','Dung dịch ấm lên, xuất hiện chất rắn trắng CaSO₄ ít tan.','precipitate','Đồng thời xảy ra trung hòa H⁺ + OH⁻ và tạo CaSO₄ ít tan.','#f2f1e9'),
+  R('H2SO4','Cu(OH)2','H₂SO₄ + Cu(OH)₂ → CuSO₄ + 2H₂O','Kết tủa xanh tan, tạo dung dịch xanh lam.','color','Cu(OH)₂ phản ứng với axit tạo CuSO₄ và nước.','#65b9e6'),
+  R('HNO3','KOH','HNO₃ + KOH → KNO₃ + H₂O','Dung dịch ấm lên.','heat','H⁺ + OH⁻ → H₂O.'),
+  R('HNO3','Ba(OH)2','2HNO₃ + Ba(OH)₂ → Ba(NO₃)₂ + 2H₂O','Dung dịch ấm lên.','heat','Axit nitric trung hòa barium hydroxide.'),
+  R('HNO3','Cu(OH)2','2HNO₃ + Cu(OH)₂ → Cu(NO₃)₂ + 2H₂O','Kết tủa xanh tan, tạo dung dịch xanh lam.','color','Cu(OH)₂ phản ứng với axit tạo muối nitrate và nước.','#65b9e6'),
+  R('CH3COOH','KOH','CH₃COOH + KOH → CH₃COOK + H₂O','Dung dịch ấm nhẹ.','heat','Axit acetic trung hòa KOH.'),
+  R('CH3COOH','Ca(OH)2','2CH₃COOH + Ca(OH)₂ → Ca(CH₃COO)₂ + 2H₂O','Dung dịch ấm nhẹ.','heat','Axit acetic trung hòa calcium hydroxide.'),
+  R('CH3COOH','Ba(OH)2','2CH₃COOH + Ba(OH)₂ → Ba(CH₃COO)₂ + 2H₂O','Dung dịch ấm nhẹ.','heat','Axit acetic trung hòa barium hydroxide.'),
+  R('CH3COOH','Cu(OH)2','2CH₃COOH + Cu(OH)₂ → Cu(CH₃COO)₂ + 2H₂O','Kết tủa xanh tan dần, tạo dung dịch xanh.','color','Axit acetic phản ứng với copper(II) hydroxide.','#65b9e6'),
+  R('H3PO4','KOH','H₃PO₄ + 3KOH → K₃PO₄ + 3H₂O','Dung dịch ấm nhẹ.','heat','Phương trình biểu diễn trung hòa hoàn toàn.'),
+  R('H3PO4','Ba(OH)2','2H₃PO₄ + 3Ba(OH)₂ → Ba₃(PO₄)₂↓ + 6H₂O','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ và PO₄³⁻ tạo phosphate ít tan.','#f0efe8'),
+  R('H3PO4','Cu(OH)2','2H₃PO₄ + 3Cu(OH)₂ → Cu₃(PO₄)₂↓ + 6H₂O','Tạo chất rắn xanh copper(II) phosphate.','precipitate','Sản phẩm phosphate của Cu²⁺ ít tan.','#5ca7d0')
+];
+neutralizationCoverage.forEach(reaction => {
+  const alreadyCovered = reactions.some(existing =>
+    [existing.a, existing.b].sort().join('|') === [reaction.a, reaction.b].sort().join('|') &&
+    !existing.excess && existing.condition === reaction.condition
+  );
+  if (!alreadyCovered) reactions.push(reaction);
+});
+
 let chosen=[]; let activeCategory='all';
 const grid=document.querySelector('#chemical-grid');
 const normalizePair=(a,b)=>[a,b].sort().join('|');
@@ -243,9 +270,9 @@ function runReaction(){
   window.lab3D?.pour(firstChemical?.color||'#a9dbe8');
   document.querySelector('#run-btn').disabled=true;
   setTimeout(()=>{document.querySelector('#reaction-status').textContent='Đang quan sát phản ứng…';},850);
-  setTimeout(()=>showResult(reaction, fallback, condition),1600);
+  setTimeout(()=>showResult(reaction, fallback, condition, excessChemical),1600);
 }
-function showResult(r,fallback,condition){
+function showResult(r,fallback,condition,excessChemical=''){
   const panel=document.querySelector('#result-panel'); const v=document.querySelector('#vessel');
   const area=document.querySelector('.experiment-area'); area.classList.remove('reacting'); document.querySelector('#run-btn').disabled=false;
   if(!r&&fallback){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa đủ điều kiện phản ứng';const available=[...new Set(reactions.filter(x=>normalizePair(x.a,x.b)===normalizePair(...chosen)).map(x=>x.excess?`${x.excess} dư`:conditionName(x.condition)))].join(', ');panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Điều kiện phù hợp: ${available}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện và tỉ lệ chất là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
