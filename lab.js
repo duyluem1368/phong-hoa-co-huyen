@@ -84,20 +84,28 @@ function updateSlots(){
   document.querySelector('#run-btn').disabled=chosen.length!==2;
 }
 function clearLab(){chosen=[];updateSlots();renderChemicals();document.querySelector('#result-panel').innerHTML='<div class="empty-result"><span>⌁</span><h2>Chưa có thí nghiệm</h2><p>Chọn hai chất ở kệ bên trái, sau đó nhấn “Tiến hành phản ứng”.</p></div>';resetVessel();}
-function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting');}
+function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting','reaction-strong','reaction-color','reaction-none');document.querySelector('#reaction-status').textContent='Sẵn sàng thí nghiệm';}
 function runReaction(){
   resetVessel(); const condition=document.querySelector('#condition').value;
   const reaction=reactions.find(r=>normalizePair(r.a,r.b)===normalizePair(...chosen)&&(r.condition===condition||r.condition==='normal'));
   const fallback=reactions.find(r=>normalizePair(r.a,r.b)===normalizePair(...chosen));
-  document.querySelector('.experiment-area').classList.add('reacting');
-  setTimeout(()=>showResult(reaction, fallback, condition),900);
+  const area=document.querySelector('.experiment-area');
+  area.classList.add('reacting'); document.querySelector('#reaction-status').textContent='Đang rót hóa chất…';
+  document.querySelector('#run-btn').disabled=true;
+  setTimeout(()=>{document.querySelector('#reaction-status').textContent='Đang quan sát phản ứng…';},850);
+  setTimeout(()=>showResult(reaction, fallback, condition),1600);
 }
 function showResult(r,fallback,condition){
   const panel=document.querySelector('#result-panel'); const v=document.querySelector('#vessel');
-  document.querySelector('.experiment-area').classList.remove('reacting');
-  if(!r&&fallback){panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Hãy chọn: ${fallback.condition==='heat'?'Đun nóng':'Đốt cháy trong O₂'}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
-  if(!r){panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ</span><h2>Không ghi nhận phản ứng</h2></div><span class="result-badge none">Không phản ứng</span></div><div class="equation">${format(chosen[0])} + ${format(chosen[1])} → không phản ứng</div><div class="result-item"><small>GIẢI THÍCH</small><p>Trong điều kiện đã chọn, cặp chất này không có phản ứng thuộc chương trình THPT hoặc chưa có trong thư viện.</p></div>`;return;}
-  v.querySelector('.solution').style.background=r.color; if(r.type==='gas')v.classList.add('gas');if(r.type==='precipitate')v.classList.add('precipitate');if(r.type==='heat'){v.classList.add('heat');document.querySelector('.burner').classList.add('on');}
+  const area=document.querySelector('.experiment-area'); area.classList.remove('reacting'); document.querySelector('#run-btn').disabled=false;
+  if(!r&&fallback){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa đủ điều kiện phản ứng';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Hãy chọn: ${fallback.condition==='heat'?'Đun nóng':'Đốt cháy trong O₂'}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
+  if(!r){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Không ghi nhận phản ứng';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ</span><h2>Không ghi nhận phản ứng</h2></div><span class="result-badge none">Không phản ứng</span></div><div class="equation">${format(chosen[0])} + ${format(chosen[1])} → không phản ứng</div><div class="result-item"><small>GIẢI THÍCH</small><p>Trong điều kiện đã chọn, cặp chất này không có phản ứng thuộc chương trình THPT hoặc chưa có trong thư viện.</p></div>`;return;}
+  document.querySelector('#reaction-status').textContent=labelType(r.type);
+  v.querySelector('.solution').style.background=r.color;
+  if(r.type==='gas')v.classList.add('gas');
+  if(r.type==='precipitate')v.classList.add('precipitate');
+  if(r.type==='color')area.classList.add('reaction-color');
+  if(r.type==='heat'){v.classList.add('heat');area.classList.add('reaction-strong');document.querySelector('.burner').classList.add('on');}
   const warning=r.danger?`<div class="danger-warning"><b>⚠ Cảnh báo an toàn:</b> ${r.danger}</div>`:'';
   panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ THÍ NGHIỆM</span><h2>${r.type==='none'?'Không có phản ứng rõ rệt':'Phản ứng đã xảy ra'}</h2></div><span class="result-badge ${r.type==='none'?'none':''}">${labelType(r.type)}</span></div><div class="equation">${format(r.equation)}</div><div class="result-grid"><div class="result-item"><small>HIỆN TƯỢNG</small><p>${r.phenomenon}</p></div><div class="result-item"><small>BẢN CHẤT</small><p>${r.explain}</p></div><div class="result-item"><small>ĐIỀU KIỆN</small><p>${condition==='heat'?'Đun nóng':condition==='burn'?'Đốt cháy trong oxygen':'Điều kiện thường'}</p></div></div>${warning}`;
   panel.scrollIntoView({behavior:'smooth',block:'center'});
