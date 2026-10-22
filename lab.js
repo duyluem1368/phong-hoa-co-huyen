@@ -242,6 +242,9 @@ function renderChemicals(query=''){
   });
 }
 function format(text){return text.replace(/(\d+)/g,'<sub>$1</sub>');}
+// Phương trình trong thư viện đã dùng ký tự chỉ số Unicode (H₂SO₄, Ca(OH)₂...).
+// Không dùng format() ở đây vì các hệ số cân bằng như "2HCl" phải nằm trên dòng cơ sở.
+function formatEquation(equation){return equation;}
 function choose(id){
   if(chosen.includes(id)) chosen=chosen.filter(x=>x!==id); else if(chosen.length<2) chosen.push(id); else chosen=[chosen[1],id];
   updateSlots(); renderChemicals(document.querySelector('#chemical-search').value);
@@ -255,7 +258,7 @@ function updateSlots(){
   document.querySelector('#run-btn').disabled=chosen.length!==2;
 }
 function clearLab(){chosen=[];updateSlots();renderChemicals();document.querySelector('#result-panel').innerHTML='<div class="empty-result"><span>⌁</span><h2>Chưa có thí nghiệm</h2><p>Chọn hai chất ở kệ bên trái, sau đó nhấn “Tiến hành phản ứng”.</p></div>';resetVessel();}
-function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting','reaction-strong','reaction-color','reaction-none');document.querySelector('#reaction-status').textContent='Sẵn sàng thí nghiệm';window.lab3D?.reset();}
+function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting','reaction-strong','reaction-color','reaction-none');document.querySelector('#reaction-status').textContent='Sẵn sàng thí nghiệm';const liveEquation=document.querySelector('#reaction-equation-live');liveEquation.hidden=true;liveEquation.innerHTML='';window.lab3D?.reset();}
 function runReaction(){
   resetVessel(); const condition=document.querySelector('#condition').value;
   const candidates=reactions.filter(r=>normalizePair(r.a,r.b)===normalizePair(...chosen));
@@ -278,6 +281,8 @@ function showResult(r,fallback,condition,excessChemical=''){
   if(!r&&fallback){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa đủ điều kiện phản ứng';const available=[...new Set(reactions.filter(x=>normalizePair(x.a,x.b)===normalizePair(...chosen)).map(x=>x.excess?`${x.excess} dư`:conditionName(x.condition)))].join(', ');panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Điều kiện phù hợp: ${available}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện và tỉ lệ chất là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
   if(!r){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa có dữ liệu';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">THƯ VIỆN ĐANG MỞ RỘNG</span><h2>Chưa có dữ liệu cho cặp chất này</h2></div><span class="result-badge none">Chưa xác định</span></div><div class="equation">${format(chosen[0])} + ${format(chosen[1])} → ?</div><div class="result-item"><small>LƯU Ý</small><p>“Chưa có dữ liệu” không đồng nghĩa với “không phản ứng”. Hãy hỏi giáo viên trước khi kết luận hoặc thử ngoài đời thực.</p></div>`;return;}
   document.querySelector('#reaction-status').textContent=labelType(r.type);
+  const liveEquation=document.querySelector('#reaction-equation-live');
+  if(r.type!=='none'){liveEquation.textContent=r.equation;liveEquation.hidden=false;}
   v.querySelector('.solution').style.background=r.color;
   window.lab3D?.react({type:r.type,color:r.color,condition});
   if(r.type==='gas')v.classList.add('gas');
@@ -285,7 +290,7 @@ function showResult(r,fallback,condition,excessChemical=''){
   if(r.type==='color')area.classList.add('reaction-color');
   if(r.type==='heat'){v.classList.add('heat');area.classList.add('reaction-strong');document.querySelector('.burner').classList.add('on');}
   const warning=r.danger?`<div class="danger-warning"><b>⚠ Cảnh báo an toàn:</b> ${r.danger}</div>`:'';
-  panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ THÍ NGHIỆM</span><h2>${r.type==='none'?'Không có phản ứng rõ rệt':'Phản ứng đã xảy ra'}</h2></div><span class="result-badge ${r.type==='none'?'none':''}">${labelType(r.type)}</span></div><div class="equation">${format(r.equation)}</div><div class="result-grid"><div class="result-item"><small>HIỆN TƯỢNG</small><p>${r.phenomenon}</p></div><div class="result-item"><small>BẢN CHẤT</small><p>${r.explain}</p></div><div class="result-item"><small>ĐIỀU KIỆN / TỈ LỆ</small><p>${excessChemical?`${excessChemical} dư`:conditionName(condition)}</p></div></div>${warning}`;
+  panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ THÍ NGHIỆM</span><h2>${r.type==='none'?'Không có phản ứng rõ rệt':'Phản ứng đã xảy ra'}</h2></div><span class="result-badge ${r.type==='none'?'none':''}">${labelType(r.type)}</span></div><div class="equation"><small>PHƯƠNG TRÌNH HÓA HỌC</small>${formatEquation(r.equation)}</div><div class="result-grid"><div class="result-item"><small>HIỆN TƯỢNG</small><p>${r.phenomenon}</p></div><div class="result-item"><small>BẢN CHẤT</small><p>${r.explain}</p></div><div class="result-item"><small>ĐIỀU KIỆN / TỈ LỆ</small><p>${excessChemical?`${excessChemical} dư`:conditionName(condition)}</p></div></div>${warning}`;
   panel.scrollIntoView({behavior:'smooth',block:'center'});
 }
 function labelType(type){return({gas:'Có khí thoát ra',precipitate:'Tạo kết tủa',color:'Đổi màu',heat:'Tỏa nhiệt / cháy',absorb:'Khí bị hấp thụ',equilibrium:'Phản ứng thuận nghịch',none:'Không phản ứng'})[type]||'Phản ứng';}
