@@ -39,7 +39,7 @@ const chemicals = [
   {id:'C6H5OH',name:'Phenol',cat:'other',color:'#eef5f6'}, {id:'CH3CHO',name:'Acetaldehyde',cat:'other',color:'#eef5f6'}
 ];
 
-const R = (a,b,equation,phenomenon,type,explain,color='#cfeef1',condition='normal',danger='') => ({a,b,equation,phenomenon,type,explain,color,condition,danger});
+const R = (a,b,equation,phenomenon,type,explain,color='#cfeef1',condition='normal',danger='',excess='') => ({a,b,equation,phenomenon,type,explain,color,condition,danger,excess});
 const reactions = [
   R('Fe','CuSO4','Fe + CuSO₄ → FeSO₄ + Cu↓','Đồng màu đỏ nâu bám lên sắt; dung dịch xanh lam nhạt dần.','color','Fe khử Cu²⁺ thành Cu và bị oxi hóa thành Fe²⁺.','#cfe5c7'),
   R('Zn','CuSO4','Zn + CuSO₄ → ZnSO₄ + Cu↓','Đồng đỏ nâu xuất hiện; màu xanh của dung dịch mất dần.','color','Zn đứng trước Cu trong dãy hoạt động hóa học.','#e8f4f5'),
@@ -187,7 +187,18 @@ const reactions = [
   R('H2O2','FeCl3','2H₂O₂ → 2H₂O + O₂↑ (Fe³⁺ xúc tác)','Sủi bọt oxygen nhanh hơn.','gas','Fe³⁺ xúc tác sự phân hủy hydrogen peroxide.','#e9f6f8','normal','Hydrogen peroxide đậm đặc gây bỏng và là chất oxi hóa; chỉ dùng dung dịch học đường dưới giám sát.'),
   R('C2H5OH','CuO','C₂H₅OH + CuO → CH₃CHO + Cu + H₂O','Chất rắn đen chuyển thành đồng đỏ; có mùi aldehyde.','color','Ethanol khử CuO thành Cu và bị oxi hóa thành acetaldehyde.','#b8734e','heat'),
   R('C6H5OH','Br2','C₆H₅OH + 3Br₂ → C₆H₂Br₃OH↓ + 3HBr','Nước bromine mất màu, xuất hiện kết tủa trắng.','precipitate','Phenol thế bromine dễ dàng tạo 2,4,6-tribromophenol.','#f1f1ed','normal','Bromine độc và ăn mòn; chỉ mô phỏng.'),
-  R('CH3CHO','O2','2CH₃CHO + O₂ → 2CH₃COOH','Acetaldehyde bị oxi hóa thành acetic acid.','heat','Nhóm aldehyde dễ bị oxi hóa thành nhóm carboxyl.','#eef5f6')
+  R('CH3CHO','O2','2CH₃CHO + O₂ → 2CH₃COOH','Acetaldehyde bị oxi hóa thành acetic acid.','heat','Nhóm aldehyde dễ bị oxi hóa thành nhóm carboxyl.','#eef5f6'),
+  R('CO2','Ca(OH)2','Ca(OH)₂ + 2CO₂ → Ca(HCO₃)₂','Kết tủa trắng ban đầu tan khi tiếp tục dẫn CO₂ dư.','color','CaCO₃ tiếp tục phản ứng với CO₂ và H₂O tạo calcium bicarbonate tan.','#e9eef0','normal','','CO2'),
+  R('CO2','NaOH','CO₂ + NaOH → NaHCO₃','CO₂ bị hấp thụ, tạo sodium bicarbonate khi CO₂ dư.','absorb','Tỉ lệ mol CO₂:NaOH = 1:1 ưu tiên tạo muối hydrogencarbonate.','#e9eef0','normal','','CO2'),
+  R('SO2','NaOH','SO₂ + NaOH → NaHSO₃','SO₂ bị hấp thụ, tạo sodium hydrogensulfite khi SO₂ dư.','absorb','Khi bazơ không đủ, tạo muối axit NaHSO₃.','#e9eef0','normal','SO₂ độc; chỉ mô phỏng.','SO2'),
+  R('H3PO4','NaOH','H₃PO₄ + NaOH → NaH₂PO₄ + H₂O','Không có hiện tượng rõ, tạo muối axit.','equilibrium','Khi H₃PO₄ dư, chỉ một proton được trung hòa.','#e9eef0','normal','','H3PO4'),
+  R('AlCl3','NaOH','AlCl₃ + 4NaOH → NaAlO₂ + 3NaCl + 2H₂O','Kết tủa trắng xuất hiện rồi tan trong NaOH dư.','color','Al(OH)₃ lưỡng tính, tan trong kiềm dư tạo aluminate.','#e9eef0','normal','','NaOH'),
+  R('Al2(SO4)3','NaOH','Al₂(SO₄)₃ + 8NaOH → 2NaAlO₂ + 3Na₂SO₄ + 4H₂O','Kết tủa keo trắng xuất hiện rồi tan khi NaOH dư.','color','Al(OH)₃ phản ứng tiếp với kiềm dư.','#e9eef0','normal','','NaOH'),
+  R('ZnSO4','NaOH','ZnSO₄ + 4NaOH → Na₂ZnO₂ + Na₂SO₄ + 2H₂O','Kết tủa trắng xuất hiện rồi tan trong NaOH dư.','color','Zn(OH)₂ là hydroxide lưỡng tính.','#e9eef0','normal','','NaOH'),
+  R('Cl2','NaOH','3Cl₂ + 6NaOH → 5NaCl + NaClO₃ + 3H₂O','Màu vàng lục của chlorine mất dần trong kiềm nóng.','color','Ở nhiệt độ cao, chlorine tự oxi hóa–khử tạo chloride và chlorate.','#e9eef0','heat','Chlorine độc và chất chlorate có tính oxi hóa mạnh; chỉ mô phỏng.'),
+  R('Br2','NaOH','Br₂ + 2NaOH → NaBr + NaBrO + H₂O','Màu bromine nhạt rồi mất trong kiềm lạnh.','color','Bromine tự oxi hóa–khử tạo bromide và hypobromite.','#e9eef0','normal','Bromine độc và ăn mòn; chỉ mô phỏng.'),
+  R('Br2','NaOH','3Br₂ + 6NaOH → 5NaBr + NaBrO₃ + 3H₂O','Màu bromine mất trong kiềm nóng.','color','Ở nhiệt độ cao, sản phẩm oxi hóa là bromate.','#e9eef0','heat','Bromine độc; bromate là chất oxi hóa; chỉ mô phỏng.'),
+  R('I2','NaOH','3I₂ + 6NaOH → 5NaI + NaIO₃ + 3H₂O','Màu iodine mất dần khi đun với kiềm.','color','Iodine tự oxi hóa–khử tạo iodide và iodate.','#e9eef0','heat','Chỉ mô phỏng phản ứng với hóa chất có kiểm soát.')
 ];
 
 let chosen=[]; let activeCategory='all';
@@ -210,14 +221,22 @@ function choose(id){
 }
 function updateSlots(){
   ['a','b'].forEach((key,i)=>{const el=document.querySelector(`#slot-${key} b`);el.innerHTML=chosen[i]?format(chosen[i]):'Chưa chọn';});
+  const firstExcess=document.querySelector('#condition option[value="excess_first"]');
+  const secondExcess=document.querySelector('#condition option[value="excess_second"]');
+  firstExcess.textContent=chosen[0]?`${chosen[0]} dư`:'Chất thứ nhất dư';
+  secondExcess.textContent=chosen[1]?`${chosen[1]} dư`:'Chất thứ hai dư';
   document.querySelector('#run-btn').disabled=chosen.length!==2;
 }
 function clearLab(){chosen=[];updateSlots();renderChemicals();document.querySelector('#result-panel').innerHTML='<div class="empty-result"><span>⌁</span><h2>Chưa có thí nghiệm</h2><p>Chọn hai chất ở kệ bên trái, sau đó nhấn “Tiến hành phản ứng”.</p></div>';resetVessel();}
 function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting','reaction-strong','reaction-color','reaction-none');document.querySelector('#reaction-status').textContent='Sẵn sàng thí nghiệm';window.lab3D?.reset();}
 function runReaction(){
   resetVessel(); const condition=document.querySelector('#condition').value;
-  const reaction=reactions.find(r=>normalizePair(r.a,r.b)===normalizePair(...chosen)&&(r.condition===condition||r.condition==='normal'));
-  const fallback=reactions.find(r=>normalizePair(r.a,r.b)===normalizePair(...chosen));
+  const candidates=reactions.filter(r=>normalizePair(r.a,r.b)===normalizePair(...chosen));
+  const excessChemical=condition==='excess_first'?chosen[0]:condition==='excess_second'?chosen[1]:'';
+  const reaction=excessChemical
+    ? candidates.find(r=>r.excess===excessChemical) || candidates.find(r=>!r.excess&&r.condition==='normal')
+    : candidates.find(r=>!r.excess&&r.condition===condition);
+  const fallback=candidates[0];
   const area=document.querySelector('.experiment-area');
   area.classList.add('reacting'); document.querySelector('#reaction-status').textContent='Đang rót hóa chất…';
   const firstChemical=chemicals.find(c=>c.id===chosen[0]);
@@ -229,7 +248,7 @@ function runReaction(){
 function showResult(r,fallback,condition){
   const panel=document.querySelector('#result-panel'); const v=document.querySelector('#vessel');
   const area=document.querySelector('.experiment-area'); area.classList.remove('reacting'); document.querySelector('#run-btn').disabled=false;
-  if(!r&&fallback){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa đủ điều kiện phản ứng';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Hãy chọn: ${fallback.condition==='heat'?'Đun nóng':'Đốt cháy trong O₂'}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
+  if(!r&&fallback){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa đủ điều kiện phản ứng';const available=[...new Set(reactions.filter(x=>normalizePair(x.a,x.b)===normalizePair(...chosen)).map(x=>x.excess?`${x.excess} dư`:conditionName(x.condition)))].join(', ');panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Điều kiện phù hợp: ${available}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện và tỉ lệ chất là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
   if(!r){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa có dữ liệu';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">THƯ VIỆN ĐANG MỞ RỘNG</span><h2>Chưa có dữ liệu cho cặp chất này</h2></div><span class="result-badge none">Chưa xác định</span></div><div class="equation">${format(chosen[0])} + ${format(chosen[1])} → ?</div><div class="result-item"><small>LƯU Ý</small><p>“Chưa có dữ liệu” không đồng nghĩa với “không phản ứng”. Hãy hỏi giáo viên trước khi kết luận hoặc thử ngoài đời thực.</p></div>`;return;}
   document.querySelector('#reaction-status').textContent=labelType(r.type);
   v.querySelector('.solution').style.background=r.color;
@@ -239,10 +258,11 @@ function showResult(r,fallback,condition){
   if(r.type==='color')area.classList.add('reaction-color');
   if(r.type==='heat'){v.classList.add('heat');area.classList.add('reaction-strong');document.querySelector('.burner').classList.add('on');}
   const warning=r.danger?`<div class="danger-warning"><b>⚠ Cảnh báo an toàn:</b> ${r.danger}</div>`:'';
-  panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ THÍ NGHIỆM</span><h2>${r.type==='none'?'Không có phản ứng rõ rệt':'Phản ứng đã xảy ra'}</h2></div><span class="result-badge ${r.type==='none'?'none':''}">${labelType(r.type)}</span></div><div class="equation">${format(r.equation)}</div><div class="result-grid"><div class="result-item"><small>HIỆN TƯỢNG</small><p>${r.phenomenon}</p></div><div class="result-item"><small>BẢN CHẤT</small><p>${r.explain}</p></div><div class="result-item"><small>ĐIỀU KIỆN</small><p>${condition==='heat'?'Đun nóng':condition==='burn'?'Đốt cháy trong oxygen':'Điều kiện thường'}</p></div></div>${warning}`;
+  panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ THÍ NGHIỆM</span><h2>${r.type==='none'?'Không có phản ứng rõ rệt':'Phản ứng đã xảy ra'}</h2></div><span class="result-badge ${r.type==='none'?'none':''}">${labelType(r.type)}</span></div><div class="equation">${format(r.equation)}</div><div class="result-grid"><div class="result-item"><small>HIỆN TƯỢNG</small><p>${r.phenomenon}</p></div><div class="result-item"><small>BẢN CHẤT</small><p>${r.explain}</p></div><div class="result-item"><small>ĐIỀU KIỆN / TỈ LỆ</small><p>${excessChemical?`${excessChemical} dư`:conditionName(condition)}</p></div></div>${warning}`;
   panel.scrollIntoView({behavior:'smooth',block:'center'});
 }
 function labelType(type){return({gas:'Có khí thoát ra',precipitate:'Tạo kết tủa',color:'Đổi màu',heat:'Tỏa nhiệt / cháy',absorb:'Khí bị hấp thụ',equilibrium:'Phản ứng thuận nghịch',none:'Không phản ứng'})[type]||'Phản ứng';}
+function conditionName(condition){return({normal:'Điều kiện thường',heat:'Đun nóng',burn:'Đốt cháy trong O₂'})[condition]||'Điều kiện thường';}
 
 document.querySelector('#reaction-count').textContent=`${reactions.length}`;
 document.querySelector('#chemical-search').addEventListener('input',e=>renderChemicals(e.target.value));
