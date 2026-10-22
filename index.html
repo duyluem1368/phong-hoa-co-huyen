@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Phòng Hóa Cô Huyền - Học Hóa dễ hiểu cùng cô Nguyễn Thị Huyền, giáo viên Trường THPT Xuân Phương.">
+  <meta name="theme-color" content="#7657d5">
+  <meta property="og:title" content="Phòng Hóa Cô Huyền">
+  <meta property="og:description" content="Học Hóa từ bản chất, tiến bộ mỗi ngày cùng cô Nguyễn Thị Huyền.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>">
+  <title>Phòng Hóa Cô Huyền | THPT Xuân Phương</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Về trang chủ">
+      <span class="brand-mark">⚗</span>
+      <span>Phòng Hóa <b>Cô Huyền</b></span>
+    </a>
+    <button class="menu-toggle" aria-label="Mở menu" aria-expanded="false">☰</button>
+    <nav class="nav-links" aria-label="Điều hướng chính">
+      <a href="#courses">Chuyên đề</a>
+      <a href="#quiz">Luyện tập</a>
+      <a href="#clinic">Hỏi bài</a>
+      <a href="#about">Về cô Huyền</a>
+      <a class="nav-cta" href="#register">Đăng ký học</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy reveal">
+        <span class="eyebrow">HÓA HỌC THPT • LỚP 10–12</span>
+        <h1>Hiểu bản chất.<br><em>Nhớ thật lâu.</em></h1>
+        <p>Biến những phương trình khó nhằn thành từng bước dễ hiểu. Học chắc lý thuyết, luyện đúng phương pháp và tự tin chinh phục điểm số.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#courses">Bắt đầu học miễn phí <span>→</span></a>
+          <a class="button ghost" href="#quiz"><span class="play">▶</span> Thử bài kiểm tra</a>
+        </div>
+        <div class="social-proof">
+          <div class="avatars"><span>AN</span><span>ML</span><span>TH</span><span>+9</span></div>
+          <p><b>4,9/5</b><br>từ học sinh của cô</p>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" aria-label="Minh họa lớp học Hóa học">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="teacher-card">
+          <div class="teacher-photo">
+            <div class="teacher-portrait">NH</div>
+            <span class="atom atom-a">H</span><span class="atom atom-b">O</span><span class="atom atom-c">Na</span>
+          </div>
+          <div class="teacher-caption">
+            <div><b>Cô Nguyễn Thị Huyền</b><span>THPT Xuân Phương</span></div>
+            <span class="online-dot">Đang mở lớp</span>
+          </div>
+        </div>
+        <div class="floating-card formula-card"><span>Phản ứng oxi hóa – khử</span><b>∑e<sub>nhường</sub> = ∑e<sub>nhận</sub></b></div>
+        <div class="floating-card score-card"><span class="check">✓</span><div><b>Tiến bộ tuần này</b><strong>+18%</strong></div></div>
+      </div>
+    </section>
+
+    <section class="trust-strip" aria-label="Số liệu lớp học">
+      <div><strong>500+</strong><span>Học sinh đã học</span></div>
+      <div><strong>96%</strong><span>Hiểu bài sau buổi học</span></div>
+      <div><strong>120+</strong><span>Bài giảng miễn phí</span></div>
+      <div><strong>8+</strong><span>Năm kinh nghiệm</span></div>
+    </section>
+
+    <section class="section courses" id="courses">
+      <div class="section-heading reveal">
+        <div><span class="eyebrow">HỌC ĐÚNG TRỌNG TÂM</span><h2>Chọn chuyên đề của em</h2></div>
+        <div class="grade-filter" role="group" aria-label="Lọc theo lớp">
+          <button class="active" data-grade="all">Tất cả</button><button data-grade="10">Lớp 10</button><button data-grade="11">Lớp 11</button><button data-grade="12">Lớp 12</button>
+        </div>
+      </div>
+      <div class="course-grid">
+        <article class="course-card reveal" data-grade="10">
+          <div class="course-icon purple">⚛</div><span class="tag">LỚP 10</span>
+          <h3>Cấu tạo nguyên tử</h3><p>Electron, bảng tuần hoàn và quy luật biến đổi tính chất.</p>
+          <div class="progress"><span style="width:72%"></span></div><div class="meta"><span>12 bài học</span><a href="#quiz">Học ngay →</a></div>
+        </article>
+        <article class="course-card reveal" data-grade="10">
+          <div class="course-icon teal">⇄</div><span class="tag">LỚP 10</span>
+          <h3>Oxi hóa – khử</h3><p>Số oxi hóa, bảo toàn electron và cân bằng phản ứng.</p>
+          <div class="progress"><span style="width:46%"></span></div><div class="meta"><span>10 bài học</span><a href="#quiz">Học ngay →</a></div>
+        </article>
+        <article class="course-card reveal" data-grade="11">
+          <div class="course-icon orange">⌁</div><span class="tag">LỚP 11</span>
+          <h3>Cân bằng hóa học</h3><p>Tốc độ phản ứng, cân bằng và nguyên lý Le Chatelier.</p>
+          <div class="progress"><span style="width:30%"></span></div><div class="meta"><span>9 bài học</span><a href="#quiz">Học ngay →</a></div>
+        </article>
+        <article class="course-card reveal" data-grade="11">
+          <div class="course-icon blue">⬡</div><span class="tag">LỚP 11</span>
+          <h3>Hóa học hữu cơ</h3><p>Hydrocarbon, dẫn xuất và cách nhận diện phản ứng.</p>
+          <div class="progress"><span style="width:15%"></span></div><div class="meta"><span>16 bài học</span><a href="#quiz">Học ngay →</a></div>
+        </article>
+        <article class="course-card reveal" data-grade="12">
+          <div class="course-icon rose">◇</div><span class="tag">LỚP 12</span>
+          <h3>Ester – Lipid</h3><p>Danh pháp, tính chất và dạng toán xà phòng hóa.</p>
+          <div class="progress"><span style="width:10%"></span></div><div class="meta"><span>11 bài học</span><a href="#quiz">Học ngay →</a></div>
+        </article>
+        <article class="course-card reveal" data-grade="12">
+          <div class="course-icon yellow">⚡</div><span class="tag">LỚP 12</span>
+          <h3>Điện phân</h3><p>Quy tắc điện cực và phương pháp giải nhanh bài toán.</p>
+          <div class="progress"><span style="width:5%"></span></div><div class="meta"><span>8 bài học</span><a href="#quiz">Học ngay →</a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="quiz-section" id="quiz">
+      <div class="quiz-intro reveal"><span class="eyebrow light">LUYỆN NHANH 2 PHÚT</span><h2>Em có nhớ bài không?</h2><p>Chọn đáp án rồi xem lời giải ngay. Sai không sao — hiểu được lý do mới là điều quan trọng.</p><div class="quiz-tip">💡 Mẹo: xác định số oxi hóa trước khi đếm electron.</div></div>
+      <div class="quiz-card reveal">
+        <div class="quiz-top"><span>CÂU 1 / 3</span><span class="points">+10 điểm</span></div>
+        <div class="quiz-progress"><span></span></div>
+        <h3>Trong phản ứng: 2Mg + O₂ → 2MgO, hai nguyên tử Mg đã nhường tổng cộng bao nhiêu electron?</h3>
+        <div class="answers">
+          <button data-correct="false"><span>A</span>2 electron</button>
+          <button data-correct="true"><span>B</span>4 electron</button>
+          <button data-correct="false"><span>C</span>1 electron</button>
+          <button data-correct="false"><span>D</span>8 electron</button>
+        </div>
+        <div class="feedback" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section clinic" id="clinic">
+      <div class="clinic-card reveal">
+        <div class="clinic-copy"><span class="eyebrow">PHÒNG KHÁM BÀI HÓA</span><h2>Bí một câu?<br>Gửi cô chữa nhé!</h2><p>Chụp rõ đề bài, ghi phần em đang mắc và cô sẽ hướng dẫn cách tư duy từng bước.</p><a class="button primary" href="#register">Gửi bài cho cô <span>→</span></a></div>
+        <div class="phone-mockup">
+          <div class="phone-head"><span>‹</span><b>Cô Huyền</b><i></i></div>
+          <div class="chat"><p class="student">Cô ơi, em chưa hiểu vì sao Fe nhường 3e ạ?</p><p class="teacher">Em nhìn số oxi hóa nhé: Fe đi từ 0 lên +3. Tăng 3 đơn vị nghĩa là nhường 3e ✨</p><p class="student small">À, em hiểu rồi ạ!</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="quote-mark">“</div><blockquote>Hóa học không khó khi em nhìn thấy quy luật phía sau mỗi phương trình.</blockquote><p>— Cô Nguyễn Thị Huyền • Giáo viên Trường THPT Xuân Phương</p>
+    </section>
+
+    <section class="register" id="register">
+      <div><span class="eyebrow light">HỌC THỬ MIỄN PHÍ</span><h2>Sẵn sàng học Hóa<br>theo cách dễ hiểu hơn?</h2><p>Để lại thông tin, cô sẽ tư vấn lớp phù hợp với mục tiêu của em.</p></div>
+      <form id="register-form">
+        <label>Họ và tên<input required name="name" placeholder="Nguyễn Minh Anh"></label>
+        <label>Số điện thoại<input required name="phone" type="tel" placeholder="09xx xxx xxx"></label>
+        <label>Em đang học lớp<select name="grade"><option>Lớp 10</option><option>Lớp 11</option><option>Lớp 12</option><option>Ôn thi tốt nghiệp</option></select></label>
+        <button class="button coral" type="submit">Nhận tư vấn miễn phí →</button>
+        <p class="form-status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer><a class="brand" href="#home"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a><p>Trường THPT Xuân Phương</p><p>© 2026 Phòng Hóa Cô Huyền</p></footer>
+  <script src="script.js"></script>
+</body>
+</html>
