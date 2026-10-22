@@ -250,3 +250,11 @@ document.querySelectorAll('.category-tabs button').forEach(b=>b.addEventListener
 document.querySelector('#clear-btn').addEventListener('click',clearLab); document.querySelector('#run-btn').addEventListener('click',runReaction);
 document.querySelectorAll('.challenge-list button').forEach(b=>b.addEventListener('click',()=>{chosen=[b.dataset.a,b.dataset.b];updateSlots();renderChemicals();document.querySelector('.lab-workspace').scrollIntoView({behavior:'smooth'});}));
 renderChemicals();
+
+setTimeout(() => {
+  if (!window.lab3D) {
+    document.querySelector('.bench')?.classList.add('webgl-fallback');
+    const status = document.querySelector('#reaction-status');
+    if (status?.textContent === 'Sẵn sàng thí nghiệm') status.textContent = 'Chế độ tương thích 2D';
+  }
+}, 5000);

@@ -1,4 +1,4 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.min.js';
+import * as THREE from './vendor/three/three.module.min.js';
 
 const host = document.querySelector('#lab-3d-stage');
 const bench = document.querySelector('.bench');
