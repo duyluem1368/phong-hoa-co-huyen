@@ -13,7 +13,20 @@ const chemicals = [
   {id:'Zn',name:'Kẽm',cat:'metal',color:'#d8dce0'}, {id:'Mg',name:'Magnesium',cat:'metal',color:'#e2e5e6'},
   {id:'Al',name:'Nhôm',cat:'metal',color:'#dfe3e5'}, {id:'O2',name:'Oxygen',cat:'other',color:'#d9f1ff'},
   {id:'CO2',name:'Carbon dioxide',cat:'other',color:'#e8f3f5'}, {id:'Cl2',name:'Chlorine',cat:'other',color:'#dce899'},
-  {id:'Br2',name:'Bromine',cat:'other',color:'#bd6c4b'}, {id:'H2O',name:'Nước',cat:'other',color:'#ccebf4'}
+  {id:'Br2',name:'Bromine',cat:'other',color:'#bd6c4b'}, {id:'H2O',name:'Nước',cat:'other',color:'#ccebf4'},
+  {id:'H3PO4',name:'Axit phosphoric',cat:'acid',color:'#e6f6f8'}, {id:'NH3',name:'Ammonia',cat:'base',color:'#edf7f3'},
+  {id:'CaO',name:'Calcium oxide',cat:'other',color:'#f1f0e8'}, {id:'MgO',name:'Magnesium oxide',cat:'other',color:'#f1f0e8'},
+  {id:'CuO',name:'Copper(II) oxide',cat:'other',color:'#36393b'}, {id:'Fe2O3',name:'Iron(III) oxide',cat:'other',color:'#a95035'},
+  {id:'Al2O3',name:'Aluminium oxide',cat:'other',color:'#edece7'}, {id:'SO2',name:'Sulfur dioxide',cat:'other',color:'#e5f0f1'},
+  {id:'SO3',name:'Sulfur trioxide',cat:'other',color:'#e5f0f1'}, {id:'I2',name:'Iodine',cat:'other',color:'#6b4256'},
+  {id:'CaCO3',name:'Calcium carbonate',cat:'salt',color:'#f3f1e9'}, {id:'CaCl2',name:'Calcium chloride',cat:'salt',color:'#fff3dc'},
+  {id:'MgCl2',name:'Magnesium chloride',cat:'salt',color:'#fff3dc'}, {id:'FeCl2',name:'Iron(II) chloride',cat:'salt',color:'#dcebc6'},
+  {id:'CuCl2',name:'Copper(II) chloride',cat:'salt',color:'#9edbc6'}, {id:'AlCl3',name:'Aluminium chloride',cat:'salt',color:'#fff3dc'},
+  {id:'ZnSO4',name:'Zinc sulfate',cat:'salt',color:'#fff3dc'}, {id:'Na2S',name:'Sodium sulfide',cat:'salt',color:'#fff3dc'},
+  {id:'Na3PO4',name:'Sodium phosphate',cat:'salt',color:'#fff3dc'}, {id:'Na2SO3',name:'Sodium sulfite',cat:'salt',color:'#fff3dc'},
+  {id:'Cu(OH)2',name:'Copper(II) hydroxide',cat:'base',color:'#62b7df'}, {id:'C2H5OH',name:'Ethanol',cat:'other',color:'#eef5f6'},
+  {id:'C6H12O6',name:'Glucose',cat:'other',color:'#f4eee1'}, {id:'C3H8O3',name:'Glycerol',cat:'other',color:'#eef5f6'},
+  {id:'Hồ tinh bột',name:'Dung dịch hồ tinh bột',cat:'other',color:'#f1eee7'}
 ];
 
 const R = (a,b,equation,phenomenon,type,explain,color='#cfeef1',condition='normal',danger='') => ({a,b,equation,phenomenon,type,explain,color,condition,danger});
@@ -54,11 +67,50 @@ const reactions = [
   R('H2SO4','BaCl2','H₂SO₄ + BaCl₂ → BaSO₄↓ + 2HCl','Xuất hiện kết tủa trắng BaSO₄.','precipitate','Phản ứng nhận biết ion sulfate.','#f2f1e9'),
   R('Na2CO3','CuSO4','Na₂CO₃ + CuSO₄ → CuCO₃↓ + Na₂SO₄','Xuất hiện kết tủa xanh lục.','precipitate','Cu²⁺ kết hợp CO₃²⁻ tạo muối ít tan.','#72b89c'),
   R('NaOH','Al','2Al + 2NaOH + 2H₂O → 2NaAlO₂ + 3H₂↑','Nhôm tan dần và có khí thoát ra.','gas','Al có tính lưỡng tính, phản ứng với dung dịch kiềm.','#dceced','normal','Phản ứng tỏa nhiệt và sinh khí dễ cháy; chỉ thực hiện có giáo viên giám sát.'),
-  R('H2O','Na2CO3','Na₂CO₃ + H₂O ⇌ NaHCO₃ + NaOH','Không có hiện tượng rõ; dung dịch có môi trường bazơ.','none','Ion CO₃²⁻ thủy phân tạo OH⁻.'),
-  R('H2O','CO2','CO₂ + H₂O ⇌ H₂CO₃','CO₂ tan một phần, tạo dung dịch axit yếu.','none','Cân bằng tạo carbonic acid diễn ra thuận nghịch.'),
+  R('H2O','Na2CO3','Na₂CO₃ + H₂O ⇌ NaHCO₃ + NaOH','Không có hiện tượng rõ; dung dịch có môi trường bazơ.','equilibrium','Ion CO₃²⁻ thủy phân tạo OH⁻.'),
+  R('H2O','CO2','CO₂ + H₂O ⇌ H₂CO₃','CO₂ tan một phần, tạo dung dịch axit yếu.','equilibrium','Cân bằng tạo carbonic acid diễn ra thuận nghịch.'),
   R('FeCl3','AgNO3','FeCl₃ + 3AgNO₃ → 3AgCl↓ + Fe(NO₃)₃','Xuất hiện kết tủa trắng AgCl.','precipitate','Ag⁺ phản ứng với Cl⁻ trong dung dịch.','#e9edf0'),
   R('CuSO4','BaCl2','CuSO₄ + BaCl₂ → BaSO₄↓ + CuCl₂','Xuất hiện kết tủa trắng, dung dịch còn màu xanh lục nhạt.','precipitate','Ba²⁺ + SO₄²⁻ → BaSO₄↓.','#dce8d5')
-  ,R('HNO3','NaOH','HNO₃ + NaOH → NaNO₃ + H₂O','Dung dịch ấm lên, không có khí hay kết tủa.','heat','H⁺ kết hợp OH⁻ tạo nước; đây là phản ứng trung hòa.','#e9eef0')
+  ,R('HNO3','NaOH','HNO₃ + NaOH → NaNO₃ + H₂O','Dung dịch ấm lên, không có khí hay kết tủa.','heat','H⁺ kết hợp OH⁻ tạo nước; đây là phản ứng trung hòa.','#e9eef0'),
+  R('H3PO4','NaOH','H₃PO₄ + 3NaOH → Na₃PO₄ + 3H₂O','Dung dịch ấm nhẹ, không có khí hay kết tủa.','heat','Axit phosphoric được trung hòa hoàn toàn khi NaOH dư.','#e9eef0'),
+  R('H3PO4','Ca(OH)2','2H₃PO₄ + 3Ca(OH)₂ → Ca₃(PO₄)₂↓ + 6H₂O','Xuất hiện kết tủa trắng calcium phosphate.','precipitate','Ca²⁺ kết hợp PO₄³⁻ tạo muối ít tan.','#f0efe8'),
+  R('CaO','H2O','CaO + H₂O → Ca(OH)₂','Vôi sống rã ra, hỗn hợp nóng lên mạnh.','heat','Phản ứng tôi vôi tỏa nhiều nhiệt.','#f1f0e8','normal','Không chạm vào hỗn hợp; phản ứng thật có thể gây bỏng nhiệt và bỏng kiềm.'),
+  R('CaO','HCl','CaO + 2HCl → CaCl₂ + H₂O','Chất rắn trắng tan dần, dung dịch ấm lên.','heat','Oxide bazơ phản ứng với axit tạo muối và nước.'),
+  R('MgO','HCl','MgO + 2HCl → MgCl₂ + H₂O','Chất rắn trắng tan dần.','color','MgO là oxide bazơ, tác dụng với axit.'),
+  R('CuO','HCl','CuO + 2HCl → CuCl₂ + H₂O','Chất rắn đen tan dần, tạo dung dịch xanh lục.','color','CuO là oxide bazơ, tạo muối CuCl₂.','#83cbb6'),
+  R('CuO','H2SO4','CuO + H₂SO₄ → CuSO₄ + H₂O','Chất rắn đen tan, dung dịch chuyển xanh lam.','color','CuO phản ứng với axit tạo CuSO₄.','#65b9e6'),
+  R('Fe2O3','HCl','Fe₂O₃ + 6HCl → 2FeCl₃ + 3H₂O','Chất rắn nâu đỏ tan dần, tạo dung dịch vàng nâu.','color','Fe₂O₃ là oxide bazơ.','#d8a04c'),
+  R('Al2O3','HCl','Al₂O₃ + 6HCl → 2AlCl₃ + 3H₂O','Chất rắn trắng tan dần.','color','Al₂O₃ thể hiện tính bazơ khi phản ứng với axit.'),
+  R('Al2O3','NaOH','Al₂O₃ + 2NaOH → 2NaAlO₂ + H₂O','Chất rắn tan khi đun nóng với kiềm.','color','Al₂O₃ là oxide lưỡng tính.','#e9eef0','heat'),
+  R('CO2','NaOH','CO₂ + 2NaOH → Na₂CO₃ + H₂O','Khí CO₂ bị hấp thụ, không tạo kết tủa.','absorb','Khi NaOH dư, sản phẩm muối là Na₂CO₃.'),
+  R('SO2','NaOH','SO₂ + 2NaOH → Na₂SO₃ + H₂O','Khí SO₂ bị dung dịch hấp thụ.','absorb','SO₂ là oxide axit, phản ứng với bazơ.','#e9eef0','normal','SO₂ là khí độc, gây kích ứng hô hấp; chỉ mô phỏng.'),
+  R('SO2','Ca(OH)2','SO₂ + Ca(OH)₂ → CaSO₃↓ + H₂O','Nước vôi trong vẩn đục do kết tủa trắng.','precipitate','SO₂ phản ứng với bazơ tạo calcium sulfite.','#eeeeE7','normal','SO₂ độc; không tự tạo hoặc hít khí này.'),
+  R('SO3','H2O','SO₃ + H₂O → H₂SO₄','Phản ứng tỏa nhiệt mạnh, tạo sulfuric acid.','heat','SO₃ là oxide axit.','#e9eef0','normal','Phản ứng thật rất mãnh liệt và nguy hiểm; chỉ mô phỏng.'),
+  R('FeCl2','NaOH','FeCl₂ + 2NaOH → Fe(OH)₂↓ + 2NaCl','Kết tủa trắng xanh xuất hiện rồi dần hóa nâu.','precipitate','Fe²⁺ + 2OH⁻ → Fe(OH)₂↓.','#a8c69b'),
+  R('AlCl3','NaOH','AlCl₃ + 3NaOH → Al(OH)₃↓ + 3NaCl','Xuất hiện kết tủa keo trắng.','precipitate','Al³⁺ + 3OH⁻ → Al(OH)₃↓ khi NaOH chưa dư.','#f1f1ed'),
+  R('ZnSO4','NaOH','ZnSO₄ + 2NaOH → Zn(OH)₂↓ + Na₂SO₄','Xuất hiện kết tủa trắng Zn(OH)₂.','precipitate','Zn²⁺ + 2OH⁻ → Zn(OH)₂↓.','#f1f1ed'),
+  R('MgCl2','NaOH','MgCl₂ + 2NaOH → Mg(OH)₂↓ + 2NaCl','Xuất hiện kết tủa trắng Mg(OH)₂.','precipitate','Mg²⁺ + 2OH⁻ → Mg(OH)₂↓.','#f1f1ed'),
+  R('CuCl2','NaOH','CuCl₂ + 2NaOH → Cu(OH)₂↓ + 2NaCl','Xuất hiện kết tủa xanh lam.','precipitate','Cu²⁺ + 2OH⁻ → Cu(OH)₂↓.','#62b7df'),
+  R('CaCl2','Na2CO3','CaCl₂ + Na₂CO₃ → CaCO₃↓ + 2NaCl','Xuất hiện kết tủa trắng CaCO₃.','precipitate','Ca²⁺ + CO₃²⁻ → CaCO₃↓.','#f0efe8'),
+  R('CaCl2','AgNO3','CaCl₂ + 2AgNO₃ → 2AgCl↓ + Ca(NO₃)₂','Xuất hiện kết tủa trắng AgCl.','precipitate','Ag⁺ kết hợp Cl⁻ tạo AgCl.','#e9edf0'),
+  R('FeCl2','AgNO3','FeCl₂ + 2AgNO₃ → 2AgCl↓ + Fe(NO₃)₂','Xuất hiện kết tủa trắng AgCl.','precipitate','Ag⁺ + Cl⁻ → AgCl↓.','#e9edf0'),
+  R('AlCl3','AgNO3','AlCl₃ + 3AgNO₃ → 3AgCl↓ + Al(NO₃)₃','Xuất hiện kết tủa trắng AgCl.','precipitate','Ag⁺ + Cl⁻ → AgCl↓.','#e9edf0'),
+  R('Na3PO4','AgNO3','Na₃PO₄ + 3AgNO₃ → Ag₃PO₄↓ + 3NaNO₃','Xuất hiện kết tủa vàng Ag₃PO₄.','precipitate','3Ag⁺ + PO₄³⁻ → Ag₃PO₄↓.','#e4c643'),
+  R('Na3PO4','CaCl2','2Na₃PO₄ + 3CaCl₂ → Ca₃(PO₄)₂↓ + 6NaCl','Xuất hiện kết tủa trắng calcium phosphate.','precipitate','3Ca²⁺ + 2PO₄³⁻ → Ca₃(PO₄)₂↓.','#f0efe8'),
+  R('Na2S','HCl','Na₂S + 2HCl → 2NaCl + H₂S↑','Khí không màu thoát ra.','gas','S²⁻ nhận H⁺ tạo H₂S.','#e8f0dc','normal','H₂S cực độc; tuyệt đối không tự thực hiện hoặc ngửi khí.'),
+  R('Na2S','CuSO4','Na₂S + CuSO₄ → CuS↓ + Na₂SO₄','Xuất hiện kết tủa đen CuS.','precipitate','Cu²⁺ + S²⁻ → CuS↓.','#25282a','normal','Muối sulfide cần được xử lý đúng quy định; không tự làm.'),
+  R('Na2S','FeSO4','Na₂S + FeSO₄ → FeS↓ + Na₂SO₄','Xuất hiện kết tủa đen FeS.','precipitate','Fe²⁺ + S²⁻ → FeS↓.','#2d3330'),
+  R('Na2S','Pb(NO3)2','Na₂S + Pb(NO₃)₂ → PbS↓ + 2NaNO₃','Xuất hiện kết tủa đen PbS.','precipitate','Pb²⁺ + S²⁻ → PbS↓.','#242629','normal','Hợp chất chì rất độc; chỉ mô phỏng.'),
+  R('CaCO3','HCl','CaCO₃ + 2HCl → CaCl₂ + CO₂↑ + H₂O','Chất rắn tan dần, sủi bọt khí CO₂.','gas','Muối carbonate phản ứng với axit giải phóng CO₂.'),
+  R('NH3','HCl','NH₃ + HCl → NH₄Cl','Xuất hiện khói trắng ammonium chloride.','precipitate','Hai khí kết hợp tạo các hạt NH₄Cl rất nhỏ.','#f1f1ed','normal','NH₃ và HCl đều gây kích ứng; thí nghiệm thật chỉ làm dưới sự giám sát.'),
+  R('NH3','H2O','NH₃ + H₂O ⇌ NH₄⁺ + OH⁻','Ammonia tan nhiều; dung dịch có môi trường bazơ.','equilibrium','Cân bằng tạo OH⁻ làm quỳ tím hóa xanh.'),
+  R('I2','Hồ tinh bột','I₂ + hồ tinh bột → phức màu xanh tím','Dung dịch xuất hiện màu xanh tím đặc trưng.','color','Iodine tạo phức màu với amylose trong tinh bột.','#29285f'),
+  R('I2','NaOH','I₂ + 2NaOH → NaI + NaIO + H₂O','Màu iodine nhạt rồi mất dần trong dung dịch kiềm lạnh.','color','I₂ vừa bị oxi hóa vừa bị khử.','#e9eef0'),
+  R('Cl2','NaOH','Cl₂ + 2NaOH → NaCl + NaClO + H₂O','Màu vàng lục của chlorine nhạt dần.','color','Chlorine tự oxi hóa – khử trong kiềm lạnh.','#e9eef0','normal','Chlorine độc và dung dịch hypochlorite có tính oxi hóa; chỉ mô phỏng.'),
+  R('C2H5OH','O2','C₂H₅OH + 3O₂ → 2CO₂ + 3H₂O','Ethanol cháy với ngọn lửa xanh nhạt, tỏa nhiệt.','heat','Phản ứng cháy hoàn toàn tạo CO₂ và H₂O.','#9edbff','burn','Ethanol dễ cháy; không tự thực hiện gần nguồn lửa.'),
+  R('C2H5OH','CH3COOH','CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O','Sau phản ứng có mùi thơm đặc trưng của ester.','heat','Phản ứng ester hóa thuận nghịch, cần H₂SO₄ đặc làm xúc tác.','#eef5f6','heat','Thí nghiệm thật cần hóa chất ăn mòn và đun nóng; chỉ làm dưới sự giám sát.'),
+  R('C6H12O6','Cu(OH)2','C₆H₁₂O₆ + 2Cu(OH)₂ → C₆H₁₂O₇ + Cu₂O↓ + 3H₂O','Khi đun nóng, kết tủa đỏ gạch Cu₂O xuất hiện.','precipitate','Nhóm aldehyde của glucose khử Cu²⁺ thành Cu⁺.','#b94f32','heat'),
+  R('C3H8O3','Cu(OH)2','2C₃H₈O₃ + Cu(OH)₂ → (C₃H₇O₃)₂Cu + 2H₂O','Kết tủa tan, tạo dung dịch xanh lam đậm.','color','Glycerol có các nhóm –OH kề nhau tạo phức với Cu²⁺.','#287ec4')
 ];
 
 let chosen=[]; let activeCategory='all';
@@ -99,7 +151,7 @@ function showResult(r,fallback,condition){
   const panel=document.querySelector('#result-panel'); const v=document.querySelector('#vessel');
   const area=document.querySelector('.experiment-area'); area.classList.remove('reacting'); document.querySelector('#run-btn').disabled=false;
   if(!r&&fallback){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa đủ điều kiện phản ứng';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Hãy chọn: ${fallback.condition==='heat'?'Đun nóng':'Đốt cháy trong O₂'}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
-  if(!r){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Không ghi nhận phản ứng';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ</span><h2>Không ghi nhận phản ứng</h2></div><span class="result-badge none">Không phản ứng</span></div><div class="equation">${format(chosen[0])} + ${format(chosen[1])} → không phản ứng</div><div class="result-item"><small>GIẢI THÍCH</small><p>Trong điều kiện đã chọn, cặp chất này không có phản ứng thuộc chương trình THPT hoặc chưa có trong thư viện.</p></div>`;return;}
+  if(!r){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa có dữ liệu';panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">THƯ VIỆN ĐANG MỞ RỘNG</span><h2>Chưa có dữ liệu cho cặp chất này</h2></div><span class="result-badge none">Chưa xác định</span></div><div class="equation">${format(chosen[0])} + ${format(chosen[1])} → ?</div><div class="result-item"><small>LƯU Ý</small><p>“Chưa có dữ liệu” không đồng nghĩa với “không phản ứng”. Hãy hỏi giáo viên trước khi kết luận hoặc thử ngoài đời thực.</p></div>`;return;}
   document.querySelector('#reaction-status').textContent=labelType(r.type);
   v.querySelector('.solution').style.background=r.color;
   if(r.type==='gas')v.classList.add('gas');
@@ -110,7 +162,7 @@ function showResult(r,fallback,condition){
   panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ THÍ NGHIỆM</span><h2>${r.type==='none'?'Không có phản ứng rõ rệt':'Phản ứng đã xảy ra'}</h2></div><span class="result-badge ${r.type==='none'?'none':''}">${labelType(r.type)}</span></div><div class="equation">${format(r.equation)}</div><div class="result-grid"><div class="result-item"><small>HIỆN TƯỢNG</small><p>${r.phenomenon}</p></div><div class="result-item"><small>BẢN CHẤT</small><p>${r.explain}</p></div><div class="result-item"><small>ĐIỀU KIỆN</small><p>${condition==='heat'?'Đun nóng':condition==='burn'?'Đốt cháy trong oxygen':'Điều kiện thường'}</p></div></div>${warning}`;
   panel.scrollIntoView({behavior:'smooth',block:'center'});
 }
-function labelType(type){return({gas:'Có khí thoát ra',precipitate:'Tạo kết tủa',color:'Đổi màu',heat:'Tỏa nhiệt / cháy',none:'Không phản ứng'})[type]||'Phản ứng';}
+function labelType(type){return({gas:'Có khí thoát ra',precipitate:'Tạo kết tủa',color:'Đổi màu',heat:'Tỏa nhiệt / cháy',absorb:'Khí bị hấp thụ',equilibrium:'Phản ứng thuận nghịch',none:'Không phản ứng'})[type]||'Phản ứng';}
 
 document.querySelector('#reaction-count').textContent=`${reactions.length}`;
 document.querySelector('#chemical-search').addEventListener('input',e=>renderChemicals(e.target.value));
