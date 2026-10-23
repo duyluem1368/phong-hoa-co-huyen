@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bảng tuần hoàn 118 nguyên tố hóa học tương tác dành cho học sinh THPT.">
+  <meta name="theme-color" content="#31245f">
+  <title>Bảng tuần hoàn | Phòng Hóa Cô Huyền</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="periodic.css">
+</head>
+<body class="periodic-page">
+  <header class="site-header periodic-header">
+    <a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a>
+    <nav class="periodic-nav"><a href="lab.html">Phòng thí nghiệm</a><a class="back-home" href="index.html">← Về trang chủ</a></nav>
+  </header>
+  <main>
+    <section class="periodic-hero">
+      <div><span class="eyebrow">TRA CỨU HÓA HỌC</span><h1>Bảng tuần hoàn<br><em>các nguyên tố</em></h1><p>Khám phá đầy đủ 118 nguyên tố. Chạm vào một ô để xem thông tin chi tiết.</p></div>
+      <div class="element-preview" aria-hidden="true"><small>8</small><strong>O</strong><span>Oxygen</span><b>15,999</b></div>
+    </section>
+
+    <section class="periodic-tools" aria-label="Công cụ tra cứu">
+      <label class="element-search">⌕ <input id="element-search" type="search" placeholder="Tìm theo tên, kí hiệu hoặc số hiệu…" autocomplete="off"></label>
+      <button id="clear-search" type="button">Xóa lọc</button>
+    </section>
+
+    <section class="periodic-content">
+      <div class="legend" id="legend" aria-label="Chú giải nhóm nguyên tố"></div>
+      <p class="mobile-hint">← Vuốt ngang để xem toàn bộ bảng →</p>
+      <div class="table-scroll">
+        <div class="periodic-table" id="periodic-table" aria-label="Bảng tuần hoàn 118 nguyên tố"></div>
+      </div>
+      <p class="table-note">* Khối lượng nguyên tử trong ngoặc là số khối của đồng vị bền nhất hoặc tồn tại lâu nhất.</p>
+    </section>
+
+    <dialog class="element-dialog" id="element-dialog">
+      <button class="dialog-close" type="button" aria-label="Đóng">×</button>
+      <div class="dialog-element"><small id="detail-number"></small><strong id="detail-symbol"></strong><span id="detail-name"></span></div>
+      <div class="dialog-copy">
+        <span class="eyebrow" id="detail-category"></span><h2 id="detail-title"></h2>
+        <dl><div><dt>Nguyên tử khối</dt><dd id="detail-mass"></dd></div><div><dt>Chu kì</dt><dd id="detail-period"></dd></div><div><dt>Nhóm</dt><dd id="detail-group"></dd></div><div><dt>Số hiệu nguyên tử</dt><dd id="detail-z"></dd></div></dl>
+      </div>
+    </dialog>
+  </main>
+  <footer><a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a><p>Trường THPT Xuân Phương</p><p>© 2026 Phòng Hóa Cô Huyền</p></footer>
+  <script src="periodic.js"></script>
+</body>
+</html>
