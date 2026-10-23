@@ -228,6 +228,122 @@ neutralizationCoverage.forEach(reaction => {
   if (!alreadyCovered) reactions.push(reaction);
 });
 
+// Mở rộng theo các quy tắc phản ứng dung dịch trong chương trình THPT:
+// độ tan, tạo khí, acid–base và phản ứng thế. Mỗi bản ghi vẫn được viết tường minh
+// để học sinh luôn thấy phương trình phân tử đã cân bằng thay vì một mẫu chung chung.
+const curriculumCoverage = [
+  // Acid + carbonate / hydrogencarbonate → muối + CO2 + nước
+  R('H2SO4','NaHCO3','H₂SO₄ + 2NaHCO₃ → Na₂SO₄ + 2CO₂↑ + 2H₂O','Sủi bọt khí CO₂.','gas','Hydrogencarbonate nhận H⁺ rồi phân hủy thành CO₂ và nước.'),
+  R('H2SO4','CaCO3','H₂SO₄ + CaCO₃ → CaSO₄↓ + CO₂↑ + H₂O','Chất rắn sủi bọt; lớp CaSO₄ trắng có thể làm phản ứng chậm dần.','gas','Axit tác dụng với carbonate, đồng thời tạo CaSO₄ ít tan.','#f2f1e9'),
+  R('HNO3','Na2CO3','2HNO₃ + Na₂CO₃ → 2NaNO₃ + CO₂↑ + H₂O','Sủi bọt khí CO₂.','gas','Carbonate phản ứng với axit tạo CO₂ và nước.'),
+  R('HNO3','NaHCO3','HNO₃ + NaHCO₃ → NaNO₃ + CO₂↑ + H₂O','Có bọt khí CO₂ thoát ra.','gas','HCO₃⁻ + H⁺ → CO₂ + H₂O.'),
+  R('HNO3','K2CO3','2HNO₃ + K₂CO₃ → 2KNO₃ + CO₂↑ + H₂O','Sủi bọt khí không màu.','gas','Muối carbonate phản ứng với axit nitric.'),
+  R('CH3COOH','Na2CO3','2CH₃COOH + Na₂CO₃ → 2CH₃COONa + CO₂↑ + H₂O','Sủi bọt khí CO₂.','gas','Axit acetic vẫn mạnh hơn carbonic acid và đẩy CO₂ khỏi carbonate.'),
+  R('CH3COOH','NaHCO3','CH₃COOH + NaHCO₃ → CH₃COONa + CO₂↑ + H₂O','Sủi bọt khí CO₂ rõ rệt.','gas','Phản ứng này thường dùng nhận biết nhóm carboxyl.'),
+  R('CH3COOH','K2CO3','2CH₃COOH + K₂CO₃ → 2CH₃COOK + CO₂↑ + H₂O','Có khí CO₂ thoát ra.','gas','Axit acetic phản ứng với carbonate.'),
+  R('CH3COOH','CaCO3','2CH₃COOH + CaCO₃ → Ca(CH₃COO)₂ + CO₂↑ + H₂O','Calcium carbonate tan dần và sủi bọt.','gas','Axit acetic phản ứng với carbonate tạo muối tan.'),
+  R('H3PO4','Na2CO3','2H₃PO₄ + 3Na₂CO₃ → 2Na₃PO₄ + 3CO₂↑ + 3H₂O','Sủi bọt khí CO₂; sản phẩm phụ thuộc tỉ lệ chất.','gas','Phương trình biểu diễn trường hợp trung hòa hoàn toàn.'),
+  R('H3PO4','NaHCO3','H₃PO₄ + 3NaHCO₃ → Na₃PO₄ + 3CO₂↑ + 3H₂O','Có khí CO₂ thoát ra; sản phẩm muối phụ thuộc tỉ lệ.','gas','Hydrogencarbonate nhận proton từ axit phosphoric.'),
+  R('H3PO4','K2CO3','2H₃PO₄ + 3K₂CO₃ → 2K₃PO₄ + 3CO₂↑ + 3H₂O','Sủi bọt khí CO₂.','gas','Phương trình biểu diễn trường hợp carbonate đủ để trung hòa hoàn toàn.'),
+  R('H3PO4','CaCO3','2H₃PO₄ + 3CaCO₃ → Ca₃(PO₄)₂↓ + 3CO₂↑ + 3H₂O','Sủi bọt khí và tạo chất rắn trắng.','gas','Vừa giải phóng CO₂ vừa tạo calcium phosphate ít tan.','#f0efe8'),
+
+  // Acid + oxide bazơ / lưỡng tính
+  R('H2SO4','CaO','H₂SO₄ + CaO → CaSO₄↓ + H₂O','Chất rắn trắng phản ứng và hỗn hợp ấm lên.','heat','Oxide bazơ tác dụng với axit; CaSO₄ ít tan.'),
+  R('H2SO4','MgO','H₂SO₄ + MgO → MgSO₄ + H₂O','Chất rắn trắng tan dần, dung dịch ấm lên.','heat','MgO là oxide bazơ.'),
+  R('H2SO4','Fe2O3','Fe₂O₃ + 3H₂SO₄ → Fe₂(SO₄)₃ + 3H₂O','Chất rắn nâu đỏ tan dần khi đun nhẹ.','color','Iron(III) oxide phản ứng với axit tạo muối iron(III).','#d8a04c','heat'),
+  R('H2SO4','Al2O3','Al₂O₃ + 3H₂SO₄ → Al₂(SO₄)₃ + 3H₂O','Chất rắn trắng tan dần khi đun.','color','Al₂O₃ thể hiện tính bazơ trong phản ứng với axit.','#e9eef0','heat'),
+  R('HNO3','CaO','2HNO₃ + CaO → Ca(NO₃)₂ + H₂O','Chất rắn tan, dung dịch ấm lên.','heat','CaO là oxide bazơ.'),
+  R('HNO3','MgO','2HNO₃ + MgO → Mg(NO₃)₂ + H₂O','Chất rắn trắng tan dần.','heat','Oxide bazơ phản ứng với axit.'),
+  R('HNO3','CuO','2HNO₃ + CuO → Cu(NO₃)₂ + H₂O','Chất rắn đen tan, tạo dung dịch xanh lam.','color','CuO phản ứng với axit nitric tạo copper(II) nitrate.','#65b9e6'),
+  R('HNO3','Fe2O3','6HNO₃ + Fe₂O₃ → 2Fe(NO₃)₃ + 3H₂O','Chất rắn nâu đỏ tan, dung dịch vàng nâu xuất hiện.','color','Fe₂O₃ là oxide bazơ.','#d8a04c'),
+  R('HNO3','Al2O3','6HNO₃ + Al₂O₃ → 2Al(NO₃)₃ + 3H₂O','Chất rắn trắng tan dần.','color','Al₂O₃ phản ứng với axit tạo muối và nước.'),
+  R('CH3COOH','CaO','2CH₃COOH + CaO → Ca(CH₃COO)₂ + H₂O','Chất rắn phản ứng, hỗn hợp ấm nhẹ.','heat','Axit acetic phản ứng với oxide bazơ.'),
+  R('CH3COOH','CuO','2CH₃COOH + CuO → Cu(CH₃COO)₂ + H₂O','Chất rắn đen tan dần, dung dịch xanh xuất hiện.','color','CuO được trung hòa bởi axit acetic.','#65b9e6'),
+  R('H3PO4','CaO','2H₃PO₄ + 3CaO → Ca₃(PO₄)₂↓ + 3H₂O','Tạo chất rắn trắng calcium phosphate.','precipitate','Oxide bazơ phản ứng với axit tạo muối và nước.','#f0efe8'),
+  R('H3PO4','CuO','2H₃PO₄ + 3CuO → Cu₃(PO₄)₂↓ + 3H₂O','Chất rắn đen chuyển thành chất rắn xanh.','color','Tạo copper(II) phosphate ít tan.','#5ca7d0'),
+
+  // Acid + sulfite / sulfide: phản ứng tạo khí
+  R('CH3COOH','Na2SO3','2CH₃COOH + Na₂SO₃ → 2CH₃COONa + SO₂↑ + H₂O','Có khí mùi hắc thoát ra.','gas','Axit hóa sulfite tạo H₂SO₃ rồi phân hủy.','#e9eef0','normal','SO₂ độc; chỉ mô phỏng.'),
+  R('H3PO4','Na2SO3','2H₃PO₄ + 3Na₂SO₃ → 2Na₃PO₄ + 3SO₂↑ + 3H₂O','Có khí SO₂ thoát ra; muối phosphate phụ thuộc tỉ lệ.','gas','Sulfite bị axit hóa và giải phóng SO₂.','#e9eef0','normal','SO₂ độc; chỉ mô phỏng.'),
+  R('H2SO4','Na2S','H₂SO₄ + Na₂S → Na₂SO₄ + H₂S↑','Có khí không màu thoát ra.','gas','S²⁻ nhận proton tạo H₂S.','#e8f0dc','normal','H₂S cực độc; tuyệt đối không thực hiện ngoài mô phỏng.'),
+  R('CH3COOH','Na2S','2CH₃COOH + Na₂S → 2CH₃COONa + H₂S↑','Có khí H₂S thoát ra.','gas','Axit acetic proton hóa ion sulfide.','#e8f0dc','normal','H₂S cực độc; tuyệt đối không thực hiện ngoài mô phỏng.'),
+  R('H3PO4','Na2S','2H₃PO₄ + 3Na₂S → 2Na₃PO₄ + 3H₂S↑','Có khí H₂S thoát ra; sản phẩm phosphate phụ thuộc tỉ lệ.','gas','Ion sulfide nhận proton tạo khí H₂S.','#e8f0dc','normal','H₂S cực độc; tuyệt đối không thực hiện ngoài mô phỏng.'),
+
+  // Muối ammonium + kiềm tan
+  R('NH4Cl','KOH','NH₄Cl + KOH → KCl + NH₃↑ + H₂O','Đun nhẹ thấy khí ammonia thoát ra.','gas','NH₄⁺ + OH⁻ → NH₃ + H₂O.','#e8f2ef','heat','Không ngửi trực tiếp NH₃.'),
+  R('NH4Cl','Ca(OH)2','2NH₄Cl + Ca(OH)₂ → CaCl₂ + 2NH₃↑ + 2H₂O','Đun nhẹ có khí ammonia thoát ra.','gas','Kiềm giải phóng NH₃ khỏi muối ammonium.','#e8f2ef','heat','Không ngửi trực tiếp NH₃.'),
+  R('NH4Cl','Ba(OH)2','2NH₄Cl + Ba(OH)₂ → BaCl₂ + 2NH₃↑ + 2H₂O','Có khí ammonia thoát ra khi đun.','gas','NH₄⁺ phản ứng với OH⁻.','#e8f2ef','heat','Không ngửi trực tiếp NH₃.'),
+  R('NH4NO3','KOH','NH₄NO₃ + KOH → KNO₃ + NH₃↑ + H₂O','Đun nhẹ có khí ammonia thoát ra.','gas','Phản ứng nhận biết ion NH₄⁺.','#e8f2ef','heat','Không ngửi trực tiếp NH₃.'),
+  R('NH4NO3','Ca(OH)2','2NH₄NO₃ + Ca(OH)₂ → Ca(NO₃)₂ + 2NH₃↑ + 2H₂O','Có khí ammonia thoát ra khi đun nhẹ.','gas','NH₄⁺ + OH⁻ → NH₃ + H₂O.','#e8f2ef','heat','Không ngửi trực tiếp NH₃.'),
+  R('NH4NO3','Ba(OH)2','2NH₄NO₃ + Ba(OH)₂ → Ba(NO₃)₂ + 2NH₃↑ + 2H₂O','Có khí ammonia thoát ra.','gas','Bazơ mạnh giải phóng NH₃ khỏi muối ammonium.','#e8f2ef','heat','Không ngửi trực tiếp NH₃.'),
+  R('(NH4)2SO4','KOH','(NH₄)₂SO₄ + 2KOH → K₂SO₄ + 2NH₃↑ + 2H₂O','Đun nhẹ có khí ammonia thoát ra.','gas','Phản ứng nhận biết ion NH₄⁺.','#e8f2ef','heat','Không ngửi trực tiếp NH₃.'),
+  R('(NH4)2SO4','Ca(OH)2','(NH₄)₂SO₄ + Ca(OH)₂ → CaSO₄↓ + 2NH₃↑ + 2H₂O','Có khí ammonia và chất rắn trắng ít tan.','gas','Đồng thời tạo NH₃ và CaSO₄ ít tan.','#f2f1e9','heat','Không ngửi trực tiếp NH₃.'),
+  R('(NH4)2SO4','Ba(OH)2','(NH₄)₂SO₄ + Ba(OH)₂ → BaSO₄↓ + 2NH₃↑ + 2H₂O','Tạo kết tủa trắng và khí ammonia.','gas','Phản ứng đồng thời nhận biết NH₄⁺ và SO₄²⁻.','#f2f1e9','heat','Không ngửi trực tiếp NH₃.'),
+
+  // Các kết tủa halide, sulfate, hydroxide, carbonate, phosphate và sulfide còn thiếu
+  R('AgNO3','BaCl2','2AgNO₃ + BaCl₂ → 2AgCl↓ + Ba(NO₃)₂','Xuất hiện kết tủa trắng AgCl.','precipitate','Ag⁺ + Cl⁻ → AgCl↓.','#e9edf0'),
+  R('AgNO3','MgCl2','2AgNO₃ + MgCl₂ → 2AgCl↓ + Mg(NO₃)₂','Xuất hiện kết tủa trắng AgCl.','precipitate','Ag⁺ + Cl⁻ → AgCl↓.','#e9edf0'),
+  R('AgNO3','CuCl2','2AgNO₃ + CuCl₂ → 2AgCl↓ + Cu(NO₃)₂','Xuất hiện kết tủa trắng trong dung dịch xanh.','precipitate','Ag⁺ + Cl⁻ → AgCl↓.','#e9edf0'),
+  R('AgNO3','NH4Cl','AgNO₃ + NH₄Cl → AgCl↓ + NH₄NO₃','Xuất hiện kết tủa trắng AgCl.','precipitate','Ag⁺ + Cl⁻ → AgCl↓.','#e9edf0'),
+  R('AgNO3','Na2S','2AgNO₃ + Na₂S → Ag₂S↓ + 2NaNO₃','Xuất hiện kết tủa đen Ag₂S.','precipitate','2Ag⁺ + S²⁻ → Ag₂S↓.','#242629'),
+  R('AgNO3','Na2SO3','2AgNO₃ + Na₂SO₃ → Ag₂SO₃↓ + 2NaNO₃','Xuất hiện kết tủa vàng nhạt.','precipitate','Silver sulfite ít tan.','#ddca77'),
+  R('Ba(NO3)2','CuSO4','Ba(NO₃)₂ + CuSO₄ → BaSO₄↓ + Cu(NO₃)₂','Xuất hiện kết tủa trắng trong dung dịch xanh.','precipitate','Ba²⁺ + SO₄²⁻ → BaSO₄↓.','#f2f1e9'),
+  R('Ba(NO3)2','FeSO4','Ba(NO₃)₂ + FeSO₄ → BaSO₄↓ + Fe(NO₃)₂','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ + SO₄²⁻ → BaSO₄↓.','#f2f1e9'),
+  R('Ba(NO3)2','MgSO4','Ba(NO₃)₂ + MgSO₄ → BaSO₄↓ + Mg(NO₃)₂','Xuất hiện kết tủa trắng.','precipitate','BaSO₄ rất ít tan.','#f2f1e9'),
+  R('Ba(NO3)2','ZnSO4','Ba(NO₃)₂ + ZnSO₄ → BaSO₄↓ + Zn(NO₃)₂','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ + SO₄²⁻ → BaSO₄↓.','#f2f1e9'),
+  R('Ba(NO3)2','Al2(SO4)3','3Ba(NO₃)₂ + Al₂(SO₄)₃ → 3BaSO₄↓ + 2Al(NO₃)₃','Xuất hiện nhiều kết tủa trắng.','precipitate','BaSO₄ rất ít tan.','#f2f1e9'),
+  R('Ba(NO3)2','K2SO4','Ba(NO₃)₂ + K₂SO₄ → BaSO₄↓ + 2KNO₃','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ + SO₄²⁻ → BaSO₄↓.','#f2f1e9'),
+  R('Ba(NO3)2','(NH4)2SO4','Ba(NO₃)₂ + (NH₄)₂SO₄ → BaSO₄↓ + 2NH₄NO₃','Xuất hiện kết tủa trắng.','precipitate','Phản ứng nhận biết ion sulfate.','#f2f1e9'),
+  R('CuSO4','KOH','CuSO₄ + 2KOH → Cu(OH)₂↓ + K₂SO₄','Xuất hiện kết tủa xanh lam.','precipitate','Cu²⁺ + 2OH⁻ → Cu(OH)₂↓.','#62b7df'),
+  R('FeCl3','KOH','FeCl₃ + 3KOH → Fe(OH)₃↓ + 3KCl','Xuất hiện kết tủa nâu đỏ.','precipitate','Fe³⁺ + 3OH⁻ → Fe(OH)₃↓.','#a85f3d'),
+  R('FeSO4','KOH','FeSO₄ + 2KOH → Fe(OH)₂↓ + K₂SO₄','Kết tủa trắng xanh xuất hiện rồi hóa nâu ngoài không khí.','precipitate','Fe²⁺ + 2OH⁻ → Fe(OH)₂↓.','#a8c69b'),
+  R('FeCl2','KOH','FeCl₂ + 2KOH → Fe(OH)₂↓ + 2KCl','Xuất hiện kết tủa trắng xanh.','precipitate','Fe²⁺ + 2OH⁻ → Fe(OH)₂↓.','#a8c69b'),
+  R('CuCl2','KOH','CuCl₂ + 2KOH → Cu(OH)₂↓ + 2KCl','Xuất hiện kết tủa xanh lam.','precipitate','Cu²⁺ + 2OH⁻ → Cu(OH)₂↓.','#62b7df'),
+  R('AlCl3','KOH','AlCl₃ + 3KOH → Al(OH)₃↓ + 3KCl','Xuất hiện kết tủa keo trắng khi KOH chưa dư.','precipitate','Al³⁺ + 3OH⁻ → Al(OH)₃↓.','#f1f1ed'),
+  R('ZnSO4','KOH','ZnSO₄ + 2KOH → Zn(OH)₂↓ + K₂SO₄','Xuất hiện kết tủa trắng.','precipitate','Zn²⁺ + 2OH⁻ → Zn(OH)₂↓.','#f1f1ed'),
+  R('MgCl2','KOH','MgCl₂ + 2KOH → Mg(OH)₂↓ + 2KCl','Xuất hiện kết tủa trắng.','precipitate','Mg²⁺ + 2OH⁻ → Mg(OH)₂↓.','#f1f1ed'),
+  R('Cu(NO3)2','KOH','Cu(NO₃)₂ + 2KOH → Cu(OH)₂↓ + 2KNO₃','Xuất hiện kết tủa xanh lam.','precipitate','Cu²⁺ + 2OH⁻ → Cu(OH)₂↓.','#62b7df'),
+  R('Fe(NO3)3','KOH','Fe(NO₃)₃ + 3KOH → Fe(OH)₃↓ + 3KNO₃','Xuất hiện kết tủa nâu đỏ.','precipitate','Fe³⁺ + 3OH⁻ → Fe(OH)₃↓.','#a85f3d'),
+  R('MgSO4','KOH','MgSO₄ + 2KOH → Mg(OH)₂↓ + K₂SO₄','Xuất hiện kết tủa trắng.','precipitate','Mg²⁺ + 2OH⁻ → Mg(OH)₂↓.','#f1f1ed'),
+  R('Al2(SO4)3','KOH','Al₂(SO₄)₃ + 6KOH → 2Al(OH)₃↓ + 3K₂SO₄','Xuất hiện kết tủa keo trắng khi KOH chưa dư.','precipitate','Al³⁺ + 3OH⁻ → Al(OH)₃↓.','#f1f1ed'),
+  R('Na2CO3','FeSO4','Na₂CO₃ + FeSO₄ → FeCO₃↓ + Na₂SO₄','Xuất hiện kết tủa lục nhạt, dễ bị oxi hóa ngoài không khí.','precipitate','Fe²⁺ + CO₃²⁻ → FeCO₃↓.','#a8bd91'),
+  R('Na2CO3','Pb(NO3)2','Na₂CO₃ + Pb(NO₃)₂ → PbCO₃↓ + 2NaNO₃','Xuất hiện kết tủa trắng.','precipitate','Pb²⁺ + CO₃²⁻ → PbCO₃↓.','#f0efe8','normal','Hợp chất chì độc; chỉ mô phỏng.'),
+  R('Na2CO3','BaCl2','Na₂CO₃ + BaCl₂ → BaCO₃↓ + 2NaCl','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ + CO₃²⁻ → BaCO₃↓.','#f0efe8'),
+  R('Na2CO3','Ca(NO3)2','Na₂CO₃ + Ca(NO₃)₂ → CaCO₃↓ + 2NaNO₃','Xuất hiện kết tủa trắng.','precipitate','Ca²⁺ + CO₃²⁻ → CaCO₃↓.','#f0efe8'),
+  R('Na2CO3','Ba(NO3)2','Na₂CO₃ + Ba(NO₃)₂ → BaCO₃↓ + 2NaNO₃','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ + CO₃²⁻ → BaCO₃↓.','#f0efe8'),
+  R('K2CO3','MgCl2','K₂CO₃ + MgCl₂ → MgCO₃↓ + 2KCl','Xuất hiện kết tủa trắng.','precipitate','Mg²⁺ + CO₃²⁻ → MgCO₃↓.','#f0efe8'),
+  R('K2CO3','CuSO4','K₂CO₃ + CuSO₄ → CuCO₃↓ + K₂SO₄','Xuất hiện kết tủa xanh lục.','precipitate','Cu²⁺ + CO₃²⁻ → muối carbonate ít tan.','#72b89c'),
+  R('K2CO3','FeSO4','K₂CO₃ + FeSO₄ → FeCO₃↓ + K₂SO₄','Xuất hiện kết tủa lục nhạt.','precipitate','Fe²⁺ + CO₃²⁻ → FeCO₃↓.','#a8bd91'),
+  R('K2CO3','ZnSO4','K₂CO₃ + ZnSO₄ → ZnCO₃↓ + K₂SO₄','Xuất hiện kết tủa trắng.','precipitate','Zn²⁺ + CO₃²⁻ → ZnCO₃↓.','#f0efe8'),
+  R('K2CO3','Pb(NO3)2','K₂CO₃ + Pb(NO₃)₂ → PbCO₃↓ + 2KNO₃','Xuất hiện kết tủa trắng.','precipitate','Pb²⁺ + CO₃²⁻ → PbCO₃↓.','#f0efe8','normal','Hợp chất chì độc; chỉ mô phỏng.'),
+  R('K2CO3','BaCl2','K₂CO₃ + BaCl₂ → BaCO₃↓ + 2KCl','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ + CO₃²⁻ → BaCO₃↓.','#f0efe8'),
+  R('K2CO3','Cu(NO3)2','K₂CO₃ + Cu(NO₃)₂ → CuCO₃↓ + 2KNO₃','Xuất hiện kết tủa xanh lục.','precipitate','Cu²⁺ + CO₃²⁻ tạo muối ít tan.','#72b89c'),
+  R('K2CO3','Ca(NO3)2','K₂CO₃ + Ca(NO₃)₂ → CaCO₃↓ + 2KNO₃','Xuất hiện kết tủa trắng.','precipitate','Ca²⁺ + CO₃²⁻ → CaCO₃↓.','#f0efe8'),
+  R('K2CO3','Ba(NO3)2','K₂CO₃ + Ba(NO₃)₂ → BaCO₃↓ + 2KNO₃','Xuất hiện kết tủa trắng.','precipitate','Ba²⁺ + CO₃²⁻ → BaCO₃↓.','#f0efe8'),
+  R('Na3PO4','BaCl2','2Na₃PO₄ + 3BaCl₂ → Ba₃(PO₄)₂↓ + 6NaCl','Xuất hiện kết tủa trắng.','precipitate','3Ba²⁺ + 2PO₄³⁻ → Ba₃(PO₄)₂↓.','#f0efe8'),
+  R('Na3PO4','Pb(NO3)2','2Na₃PO₄ + 3Pb(NO₃)₂ → Pb₃(PO₄)₂↓ + 6NaNO₃','Xuất hiện kết tủa trắng.','precipitate','Lead(II) phosphate ít tan.','#f0efe8','normal','Hợp chất chì độc; chỉ mô phỏng.'),
+  R('Na3PO4','FeSO4','2Na₃PO₄ + 3FeSO₄ → Fe₃(PO₄)₂↓ + 3Na₂SO₄','Xuất hiện kết tủa.','precipitate','Iron(II) phosphate ít tan.','#b6ad83'),
+  R('Na3PO4','CuCl2','2Na₃PO₄ + 3CuCl₂ → Cu₃(PO₄)₂↓ + 6NaCl','Xuất hiện kết tủa xanh.','precipitate','Copper(II) phosphate ít tan.','#5ca7d0'),
+  R('Na3PO4','AlCl3','Na₃PO₄ + AlCl₃ → AlPO₄↓ + 3NaCl','Xuất hiện kết tủa trắng.','precipitate','Al³⁺ + PO₄³⁻ → AlPO₄↓.','#f0efe8'),
+  R('Na3PO4','ZnSO4','2Na₃PO₄ + 3ZnSO₄ → Zn₃(PO₄)₂↓ + 3Na₂SO₄','Xuất hiện kết tủa trắng.','precipitate','Zinc phosphate ít tan.','#f0efe8'),
+  R('Na3PO4','Cu(NO3)2','2Na₃PO₄ + 3Cu(NO₃)₂ → Cu₃(PO₄)₂↓ + 6NaNO₃','Xuất hiện kết tủa xanh.','precipitate','Copper(II) phosphate ít tan.','#5ca7d0'),
+  R('Na3PO4','Fe(NO3)3','Na₃PO₄ + Fe(NO₃)₃ → FePO₄↓ + 3NaNO₃','Xuất hiện kết tủa vàng nhạt.','precipitate','Fe³⁺ + PO₄³⁻ → FePO₄↓.','#d7c483'),
+  R('Na3PO4','Ca(NO3)2','2Na₃PO₄ + 3Ca(NO₃)₂ → Ca₃(PO₄)₂↓ + 6NaNO₃','Xuất hiện kết tủa trắng.','precipitate','Calcium phosphate ít tan.','#f0efe8'),
+  R('Na3PO4','Ba(NO3)2','2Na₃PO₄ + 3Ba(NO₃)₂ → Ba₃(PO₄)₂↓ + 6NaNO₃','Xuất hiện kết tủa trắng.','precipitate','Barium phosphate ít tan.','#f0efe8'),
+  R('Na2S','FeCl2','Na₂S + FeCl₂ → FeS↓ + 2NaCl','Xuất hiện kết tủa đen.','precipitate','Fe²⁺ + S²⁻ → FeS↓.','#2d3330'),
+  R('Na2S','CuCl2','Na₂S + CuCl₂ → CuS↓ + 2NaCl','Xuất hiện kết tủa đen.','precipitate','Cu²⁺ + S²⁻ → CuS↓.','#25282a'),
+  R('Na2S','ZnSO4','Na₂S + ZnSO₄ → ZnS↓ + Na₂SO₄','Xuất hiện kết tủa trắng ZnS.','precipitate','Zn²⁺ + S²⁻ → ZnS↓.','#f0efe8'),
+  R('Na2S','Cu(NO3)2','Na₂S + Cu(NO₃)₂ → CuS↓ + 2NaNO₃','Xuất hiện kết tủa đen.','precipitate','Cu²⁺ + S²⁻ → CuS↓.','#25282a')
+];
+
+curriculumCoverage.forEach(reaction => {
+  const alreadyCovered = reactions.some(existing =>
+    [existing.a, existing.b].sort().join('|') === [reaction.a, reaction.b].sort().join('|') &&
+    existing.condition === reaction.condition && existing.excess === reaction.excess
+  );
+  if (!alreadyCovered) reactions.push(reaction);
+});
+
 let chosen=[]; let activeCategory='all';
 const grid=document.querySelector('#chemical-grid');
 const normalizePair=(a,b)=>[a,b].sort().join('|');
