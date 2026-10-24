@@ -1,0 +1,11 @@
+.exam-2025{padding:24px max(7vw,32px);display:grid;grid-template-columns:1fr 1.4fr;align-items:center;gap:28px;background:#fff;border-bottom:1px solid var(--line)}
+.exam-title>span{font-size:9px;letter-spacing:.14em;font-weight:800;color:var(--coral)}
+.exam-title h2{font:400 28px/1.1 "DM Serif Display";margin:4px 0}
+.exam-title p{font-size:10px;color:var(--muted);margin:0}
+.exam-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.exam-facts article{padding:10px;border-radius:11px;text-align:center;background:#f6f3fb}
+.exam-facts b{display:block;color:var(--purple);font-size:14px}.exam-facts span{font-size:8px;color:var(--muted)}
+.exam-note{grid-column:1/-1;margin:0;text-align:right;font-size:8px;color:var(--muted)}.exam-note a{color:var(--purple);font-weight:700}
+.dark-mode .exam-2025{background:#211b36;border-color:#3a3155}.dark-mode .exam-facts article{background:#2d2545}
+@media(max-width:900px){.exam-2025{grid-template-columns:1fr}.exam-note{text-align:left}}
+@media(max-width:600px){.exam-facts{grid-template-columns:1fr 1fr}.exam-2025{padding:22px}.exam-title h2{font-size:24px}}
