@@ -150,13 +150,133 @@ function electronConfig(z){let left=z,parts=[],counts={};for(const [orbital,capa
 
 const oxidation={H:'+1, −1',He:'0',Li:'+1',Be:'+2',B:'+3',C:'−4, +2, +4',N:'−3, +1, +2, +3, +4, +5',O:'−2, −1, +2',F:'−1',Ne:'0',Na:'+1',Mg:'+2',Al:'+3',Si:'−4, +4',P:'−3, +3, +5',S:'−2, +4, +6',Cl:'−1, +1, +3, +5, +7',Ar:'0',K:'+1',Ca:'+2',Sc:'+3',Ti:'+2, +3, +4',V:'+2, +3, +4, +5',Cr:'+2, +3, +6',Mn:'+2, +4, +7',Fe:'+2, +3',Co:'+2, +3',Ni:'+2, +3',Cu:'+1, +2',Zn:'+2',Ga:'+3',Ge:'−4, +2, +4',As:'−3, +3, +5',Se:'−2, +4, +6',Br:'−1, +1, +3, +5, +7',Kr:'0, +2',Rb:'+1',Sr:'+2',Y:'+3',Zr:'+4',Nb:'+3, +5',Mo:'+2, +3, +4, +5, +6',Tc:'+4, +7',Ru:'+2, +3, +4, +8',Rh:'+1, +3',Pd:'+2, +4',Ag:'+1',Cd:'+2',In:'+1, +3',Sn:'+2, +4',Sb:'−3, +3, +5',Te:'−2, +4, +6',I:'−1, +1, +3, +5, +7',Xe:'0, +2, +4, +6, +8',Cs:'+1',Ba:'+2',La:'+3',Ce:'+3, +4',Pr:'+3, +4',Nd:'+3',Pm:'+3',Sm:'+2, +3',Eu:'+2, +3',Gd:'+3',Tb:'+3, +4',Dy:'+3',Ho:'+3',Er:'+3',Tm:'+2, +3',Yb:'+2, +3',Lu:'+3',Hf:'+4',Ta:'+5',W:'+4, +6',Re:'+4, +6, +7',Os:'+2, +3, +4, +8',Ir:'+3, +4',Pt:'+2, +4',Au:'+1, +3',Hg:'+1, +2',Tl:'+1, +3',Pb:'+2, +4',Bi:'+3, +5',Po:'−2, +2, +4, +6',At:'−1, +1, +3, +5, +7',Rn:'0, +2',Fr:'+1',Ra:'+2',Ac:'+3',Th:'+4',Pa:'+4, +5',U:'+3, +4, +5, +6',Np:'+3, +4, +5, +6, +7',Pu:'+3, +4, +5, +6',Am:'+3',Cm:'+3',Bk:'+3, +4',Cf:'+3',Es:'+3',Fm:'+3',Md:'+2, +3',No:'+2, +3',Lr:'+3'};
 const roman=['0','I','II','III','IV','V','VI','VII','VIII'];
-function oxidationText(el){if(oxidation[el.symbol])return oxidation[el.symbol];if(el.category==='noble')return '0 (dự đoán)';if(el.category==='alkali')return '+1 (dự đoán)';if(el.category==='alkaline')return '+2 (dự đoán)';if(el.category==='halogen')return '−1, +1, +3, +5, +7 (dự đoán)';if(el.group>=3&&el.group<=12)return `+${Math.min(el.group,8)} (dự đoán)`;return 'Chưa xác định chắc chắn'}
+function oxidationText(el){if(oxidation[el.symbol])return oxidation[el.symbol];if(el.category==='noble')return '0, +2 (dự đoán)';if(el.category==='alkali')return '+1 (dự đoán)';if(el.category==='alkaline')return '+2 (dự đoán)';if(el.category==='halogen')return '−1, +1, +3, +5, +7 (dự đoán)';if(el.group>=3&&el.group<=12)return `+${Math.min(el.group,8)} (dự đoán)`;if(el.group===13)return '+1, +3 (dự đoán)';if(el.group===14)return '+2, +4 (dự đoán)';if(el.group===15)return '−3, +1, +3, +5 (dự đoán)';if(el.group===16)return '−2, +2, +4, +6 (dự đoán)';return '0 (chưa có dữ liệu thực nghiệm)'}
 function valencyText(el){const values=(oxidationText(el).match(/[+−-](\d)/g)||[]).map(v=>Math.abs(parseInt(v.slice(1),10))).filter((v,i,a)=>a.indexOf(v)===i&&v<=8);return values.length?values.map(v=>roman[v]).join(', '):el.category==='noble'?'0':'Chưa xác định'}
 
-const applications={H:['🚀','Nhiên liệu pin nhiên liệu và sản xuất amoniac.'],He:['🎈','Bơm bóng thám không và làm lạnh nam châm siêu dẫn.'],Li:['🔋','Chế tạo pin lithium-ion cho điện thoại và xe điện.'],C:['✏️','Than chì làm ruột bút; kim cương dùng trong dụng cụ cắt.'],N:['🌱','Sản xuất phân đạm; nitơ lỏng dùng để làm lạnh.'],O:['🫁','Hỗ trợ hô hấp y tế và luyện thép.'],Ne:['💡','Tạo ánh sáng đỏ cam trong đèn quảng cáo.'],Na:['🧂','Hợp chất natri dùng trong muối ăn, thủy tinh và xà phòng.'],Mg:['🎆','Hợp kim nhẹ và pháo sáng trắng chói.'],Al:['🥫','Chế tạo vỏ lon, máy bay và vật liệu xây dựng nhẹ.'],Si:['💻','Chế tạo chip bán dẫn và pin Mặt Trời.'],P:['🌾','Sản xuất phân lân và diêm an toàn.'],S:['🛞','Sản xuất axit sulfuric và lưu hóa cao su.'],Cl:['🚰','Khử trùng nước và sản xuất nhựa PVC.'],Ar:['💡','Khí bảo vệ khi hàn và khí nạp bóng đèn.'],K:['🌿','Thành phần quan trọng của phân bón kali.'],Ca:['🦴','Hợp chất canxi dùng trong xi măng; canxi cần cho xương.'],Ti:['✈️','Hợp kim bền nhẹ cho hàng không và implant y tế.'],Cr:['✨','Mạ chống gỉ và sản xuất thép không gỉ.'],Mn:['🔋','Sản xuất thép và vật liệu điện cực pin.'],Fe:['🏗️','Nguyên liệu chính để sản xuất thép xây dựng.'],Co:['🔋','Vật liệu pin, hợp kim chịu nhiệt và sắc tố xanh.'],Ni:['🪙','Sản xuất thép không gỉ, hợp kim và pin.'],Cu:['🔌','Dây dẫn điện, động cơ và đường ống.'],Zn:['🛡️','Mạ kẽm bảo vệ thép và chế tạo pin.'],Ag:['📷','Trang sức, tiếp điểm điện và vật liệu kháng khuẩn.'],Sn:['🥫','Mạ hộp thực phẩm và tạo hợp kim hàn.'],I:['🧴','Sát khuẩn và bổ sung vi lượng trong muối iod.'],W:['🔥','Chế tạo hợp kim cứng và điện cực chịu nhiệt.'],Pt:['🚗','Chất xúc tác trong bộ xử lí khí thải và công nghiệp.'],Au:['💍','Trang sức và tiếp điểm điện tử chống ăn mòn.'],Hg:['🌡️','Từng dùng trong dụng cụ đo; hiện bị hạn chế vì độc tính.'],Pb:['🔋','Ắc quy chì và tấm chắn bức xạ; cần kiểm soát độc hại.'],U:['⚛️','Nhiên liệu cho lò phản ứng điện hạt nhân.']};
-const categoryApps={alkali:['🔋','Nghiên cứu vật liệu, pin hoặc tạo hợp chất chuyên dụng.'],alkaline:['🏗️','Dùng trong hợp kim, vật liệu xây dựng hoặc hợp chất công nghiệp.'],transition:['⚙️','Dùng trong hợp kim, xúc tác hoặc vật liệu công nghệ.'],'post-transition':['🔧','Dùng trong hợp kim, điện tử hoặc vật liệu chuyên dụng.'],metalloid:['💻','Ứng dụng trong bán dẫn, hợp kim hoặc vật liệu quang học.'],nonmetal:['🧪','Dùng trong hóa chất, vật liệu hoặc các quá trình sinh học.'],halogen:['🧴','Dùng trong sát khuẩn, dược phẩm hoặc vật liệu chuyên dụng.'],noble:['💡','Dùng trong chiếu sáng, khí bảo vệ hoặc nghiên cứu.'],lanthanide:['🧲','Dùng trong nam châm, phosphor, laser hoặc xúc tác.'],actinide:['☢️','Chủ yếu dùng trong nghiên cứu và công nghệ hạt nhân.'],unknown:['🔬','Nguyên tố tổng hợp, hiện chủ yếu phục vụ nghiên cứu khoa học.']};
-function applicationOf(el){return applications[el.symbol]||categoryApps[el.category]}
+const rawApplications=`
+H|🚀|Pin nhiên liệu, nhiên liệu tên lửa và sản xuất amoniac.
+He|🎈|Bóng thám không và làm lạnh nam châm siêu dẫn.
+Li|🔋|Pin lithium-ion cho điện thoại và xe điện.
+Be|🛰️|Hợp kim hàng không vũ trụ và cửa sổ ống tia X.
+B|🧪|Thủy tinh borosilicate chịu nhiệt và chất tẩy rửa.
+C|✏️|Than chì làm ruột bút; kim cương làm dụng cụ cắt.
+N|🌱|Sản xuất phân đạm và bảo quản lạnh bằng nitơ lỏng.
+O|🫁|Hỗ trợ hô hấp y tế và luyện thép.
+F|🦷|Fluoride trong kem đánh răng và vật liệu fluoropolymer.
+Ne|💡|Đèn quảng cáo phát ánh sáng đỏ cam.
+Na|🧂|Muối ăn, thủy tinh, giấy và xà phòng.
+Mg|🎆|Hợp kim nhẹ và pháo sáng trắng.
+Al|🥫|Vỏ lon, máy bay và vật liệu xây dựng nhẹ.
+Si|💻|Chip bán dẫn và pin Mặt Trời.
+P|🌾|Phân lân và diêm an toàn.
+S|🛞|Sản xuất axit sulfuric và lưu hóa cao su.
+Cl|🚰|Khử trùng nước và sản xuất nhựa PVC.
+Ar|💡|Khí bảo vệ khi hàn và khí nạp bóng đèn.
+K|🌿|Phân bón kali giúp cây sinh trưởng.
+Ca|🏗️|Xi măng, vôi và vật liệu xây dựng.
+Sc|✈️|Hợp kim nhôm–scandi nhẹ cho hàng không và thể thao.
+Ti|🦿|Hợp kim hàng không và implant y tế.
+V|🔧|Tăng độ bền thép và dùng trong xúc tác.
+Cr|✨|Mạ chống gỉ và sản xuất thép không gỉ.
+Mn|🔋|Sản xuất thép và vật liệu điện cực pin.
+Fe|🏗️|Nguyên liệu chính để sản xuất thép xây dựng.
+Co|🔋|Pin, hợp kim chịu nhiệt và sắc tố xanh.
+Ni|🪙|Thép không gỉ, hợp kim và pin.
+Cu|🔌|Dây dẫn điện, động cơ và đường ống.
+Zn|🛡️|Mạ bảo vệ thép và chế tạo pin.
+Ga|📡|LED, laser diode và chip tần số cao.
+Ge|📷|Sợi quang, thấu kính hồng ngoại và bán dẫn.
+As|💻|Bán dẫn gallium arsenide; việc dùng bị kiểm soát do độc tính.
+Se|☀️|Pin quang điện, cảm biến ánh sáng và thủy tinh.
+Br|🔥|Chất chống cháy và hóa chất nhiếp ảnh.
+Kr|📸|Đèn chớp, laser và cửa sổ cách nhiệt.
+Rb|⏱️|Đồng hồ nguyên tử và nghiên cứu vật lí.
+Sr|🎆|Tạo màu đỏ cho pháo hoa và chế tạo nam châm ferrite.
+Y|📺|Phosphor màn hình, laser YAG và gốm kĩ thuật.
+Zr|⚛️|Vỏ thanh nhiên liệu hạt nhân và gốm chịu nhiệt.
+Nb|🧲|Nam châm siêu dẫn và thép cường độ cao.
+Mo|⚙️|Thép chịu nhiệt và chất xúc tác lọc dầu.
+Tc|🩻|Đồng vị Tc-99m dùng trong chẩn đoán hình ảnh y học.
+Ru|💾|Tiếp điểm điện, điện trở chip và chất xúc tác.
+Rh|🚗|Bộ xúc tác xử lí khí thải ô tô.
+Pd|🚗|Bộ xúc tác khí thải, điện tử và tinh chế hiđro.
+Ag|💍|Trang sức, tiếp điểm điện và vật liệu kháng khuẩn.
+Cd|🔋|Pin Ni–Cd và sắc tố; bị hạn chế vì độc tính.
+In|📱|Lớp dẫn điện trong suốt cho màn hình cảm ứng.
+Sn|🥫|Mạ hộp thực phẩm và tạo hợp kim hàn.
+Sb|🔥|Chất chống cháy và hợp kim làm cứng chì.
+Te|☀️|Pin Mặt Trời CdTe và vật liệu nhiệt điện.
+I|🧴|Sát khuẩn và bổ sung vi lượng trong muối iod.
+Xe|🚘|Đèn pha cường độ cao, đèn chớp và gây mê.
+Cs|⏱️|Chuẩn thời gian của đồng hồ nguyên tử.
+Ba|🩻|BaSO₄ làm chất cản quang trong chụp X-quang tiêu hóa.
+La|📷|Thấu kính quang học, pin NiMH và xúc tác.
+Ce|🚗|Bộ xúc tác khí thải và bột đánh bóng kính.
+Pr|✈️|Hợp kim bền và thủy tinh màu cho kính bảo hộ.
+Nd|🧲|Nam châm vĩnh cửu mạnh trong loa và động cơ.
+Pm|🔋|Nguồn phóng xạ nhỏ cho nghiên cứu và pin nguyên tử.
+Sm|🎧|Nam châm samarium–cobalt và điều trị giảm đau xương.
+Eu|📺|Phosphor đỏ trong màn hình và mực chống giả.
+Gd|🩻|Chất tương phản MRI và vật liệu hấp thụ neutron.
+Tb|💡|Phosphor xanh trong đèn và màn hình.
+Dy|🧲|Nam châm chịu nhiệt cho động cơ xe điện.
+Ho|🔦|Laser y khoa và vật liệu tạo từ trường mạnh.
+Er|🌐|Khuếch đại tín hiệu trong cáp quang.
+Tm|🩻|Nguồn tia X di động và laser y khoa.
+Yb|🔦|Laser sợi quang và đồng hồ nguyên tử.
+Lu|🩻|Tinh thể dò trong máy PET và xúc tác.
+Hf|💻|Thanh điều khiển lò phản ứng và điện môi chip.
+Ta|📱|Tụ điện nhỏ trong điện thoại và implant y tế.
+W|🛠️|Dụng cụ cắt cứng và điện cực chịu nhiệt.
+Re|✈️|Siêu hợp kim cho động cơ phản lực.
+Os|🖊️|Hợp kim siêu cứng cho ngòi bút và tiếp điểm.
+Ir|🔥|Bugi, chén nung và thiết bị chịu ăn mòn.
+Pt|🚗|Bộ xúc tác khí thải, trang sức và xúc tác công nghiệp.
+Au|💍|Trang sức và tiếp điểm điện tử chống ăn mòn.
+Hg|🌡️|Từng dùng trong dụng cụ đo; nay bị hạn chế vì độc tính.
+Tl|🔭|Kính quang học hồng ngoại và đầu dò bức xạ.
+Pb|🔋|Ắc quy chì và tấm chắn bức xạ.
+Bi|💊|Dược phẩm dạ dày và hợp kim nóng chảy thấp.
+Po|🔬|Nguồn hạt alpha trong nghiên cứu và thiết bị chuyên dụng.
+At|🧬|Đồng vị At-211 được nghiên cứu cho điều trị ung thư đích.
+Rn|🌍|Theo dõi địa chất và nghiên cứu phóng xạ; là khí độc hại.
+Fr|🔬|Chỉ dùng trong nghiên cứu cấu trúc nguyên tử.
+Ra|🔬|Nguồn neutron và nghiên cứu lịch sử về phóng xạ.
+Ac|🧬|Ac-225 được nghiên cứu cho liệu pháp alpha đích.
+Th|⚛️|Nhiên liệu hạt nhân tiềm năng và hợp kim chịu nhiệt.
+Pa|🔬|Chủ yếu dùng trong nghiên cứu hạt nhân.
+U|⚛️|Nhiên liệu cho lò phản ứng điện hạt nhân.
+Np|🔬|Nghiên cứu hạt nhân và sản xuất Pu-238.
+Pu|🛰️|Pu-238 cấp điện cho tàu thăm dò không gian.
+Am|🚨|Nguồn ion hóa trong một số đầu báo khói.
+Cm|🚀|Nguồn hạt alpha cho thiết bị khoa học không gian.
+Bk|🔬|Tổng hợp nguyên tố nặng hơn và nghiên cứu hạt nhân.
+Cf|⛏️|Nguồn neutron trong phân tích vật liệu và thăm dò.
+Es|🔬|Nghiên cứu hóa học nguyên tố siêu nặng.
+Fm|🔬|Chỉ dùng trong nghiên cứu hạt nhân.
+Md|🔬|Chỉ dùng trong nghiên cứu tính chất nguyên tử.
+No|🔬|Chỉ dùng trong nghiên cứu hóa học hạt nhân.
+Lr|🔬|Chỉ dùng trong nghiên cứu nguyên tố siêu nặng.
+Rf|🔬|Nghiên cứu hóa học nguyên tố siêu nặng.
+Db|🔬|Nghiên cứu phản ứng và cấu trúc hạt nhân.
+Sg|🔬|Nghiên cứu hóa học nguyên tố siêu nặng.
+Bh|🔬|Chỉ tạo được lượng rất nhỏ để nghiên cứu.
+Hs|🔬|Nghiên cứu tính chất nguyên tố siêu nặng.
+Mt|🔬|Chỉ dùng trong nghiên cứu khoa học.
+Ds|🔬|Chỉ dùng trong nghiên cứu khoa học.
+Rg|🔬|Chỉ dùng trong nghiên cứu khoa học.
+Cn|🔬|Nghiên cứu tính chất hóa học tương đối tính.
+Nh|🔬|Chỉ dùng trong nghiên cứu khoa học.
+Fl|🔬|Nghiên cứu độ bền của hạt nhân siêu nặng.
+Mc|🔬|Chỉ dùng trong nghiên cứu khoa học.
+Lv|🔬|Chỉ dùng trong nghiên cứu khoa học.
+Ts|🔬|Nghiên cứu nguyên tố halogen siêu nặng.
+Og|🔬|Nghiên cứu giới hạn của bảng tuần hoàn.
+`.trim();
+const applications=Object.fromEntries(rawApplications.split('\n').map(line=>{const [symbol,icon,text]=line.split('|');return[symbol,[icon,text]]}));
+function applicationOf(el){return applications[el.symbol]||['🔬','Hiện chủ yếu được dùng trong nghiên cứu khoa học.']}
+function applicationImage(el,app){const safe=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180" viewBox="0 0 240 180"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#ede7ff"/><stop offset="1" stop-color="#fff1df"/></linearGradient></defs><rect width="240" height="180" rx="24" fill="url(#g)"/><circle cx="120" cy="76" r="52" fill="#fff" opacity=".85"/><text x="120" y="95" text-anchor="middle" font-size="66">${safe(app[0])}</text><rect x="74" y="135" width="92" height="30" rx="15" fill="#31245f"/><text x="120" y="156" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="17" fill="white">${safe(el.symbol)} · ${el.z}</text></svg>`;return`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
 
 const dialog=document.querySelector('#element-dialog');
-function showDetails(el,tile){const app=applicationOf(el);document.querySelector('#detail-number').textContent=el.z;document.querySelector('#detail-symbol').textContent=el.symbol;document.querySelector('#detail-name').textContent=el.name;document.querySelector('#detail-category').textContent=categoryNames[el.category];document.querySelector('#detail-title').textContent=`Nguyên tố ${el.name}`;document.querySelector('#detail-mass').textContent=el.mass;document.querySelector('#detail-period').textContent=el.period;document.querySelector('#detail-group').textContent=el.group;document.querySelector('#detail-z').textContent=el.z;document.querySelector('#detail-config').textContent=electronConfig(el.z);document.querySelector('#detail-oxidation').textContent=oxidationText(el);document.querySelector('#detail-valency').textContent=valencyText(el);document.querySelector('#detail-app-icon').textContent=app[0];document.querySelector('#detail-application').textContent=app[1];dialog.style.setProperty('--element-color',getComputedStyle(tile).backgroundColor);dialog.classList.remove('pop');void dialog.offsetWidth;dialog.classList.add('pop');dialog.showModal()}
+function showDetails(el,tile){const app=applicationOf(el),image=document.querySelector('#detail-app-image');document.querySelector('#detail-number').textContent=el.z;document.querySelector('#detail-symbol').textContent=el.symbol;document.querySelector('#detail-name').textContent=el.name;document.querySelector('#detail-category').textContent=categoryNames[el.category];document.querySelector('#detail-title').textContent=`Nguyên tố ${el.name}`;document.querySelector('#detail-mass').textContent=el.mass;document.querySelector('#detail-period').textContent=el.period;document.querySelector('#detail-group').textContent=el.group;document.querySelector('#detail-z').textContent=el.z;document.querySelector('#detail-config').textContent=electronConfig(el.z);document.querySelector('#detail-oxidation').textContent=oxidationText(el);document.querySelector('#detail-valency').textContent=valencyText(el);image.src=applicationImage(el,app);image.alt=`Minh họa ứng dụng của ${el.name}`;document.querySelector('#detail-application').textContent=app[1];dialog.style.setProperty('--element-color',getComputedStyle(tile).backgroundColor);dialog.classList.remove('pop');void dialog.offsetWidth;dialog.classList.add('pop');dialog.showModal()}
 document.querySelector('.dialog-close').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close()});
