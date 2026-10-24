@@ -13,6 +13,23 @@ document.querySelectorAll('.nav-links a').forEach(link => link.addEventListener(
   menuButton.textContent = '☰';
 }));
 
+const themeToggle = document.querySelector('.theme-toggle');
+const savedTheme = localStorage.getItem('chem-theme');
+if (savedTheme === 'dark' || (!savedTheme && matchMedia('(prefers-color-scheme: dark)').matches)) document.body.classList.add('dark-mode');
+function updateThemeButton(){const dark=document.body.classList.contains('dark-mode');themeToggle.textContent=dark?'☀':'☾';themeToggle.setAttribute('aria-label',dark?'Chuyển sang chế độ sáng':'Chuyển sang chế độ tối')}
+updateThemeButton();
+themeToggle.addEventListener('click',()=>{document.body.classList.toggle('dark-mode');localStorage.setItem('chem-theme',document.body.classList.contains('dark-mode')?'dark':'light');updateThemeButton()});
+
+const dailyElements=[
+  ['H','Hydrogen','Nguyên tố nhẹ nhất, là nhiên liệu của các ngôi sao.'],['C','Carbon','Nền tảng của mọi hợp chất hữu cơ và sự sống.'],['N','Nitrogen','Chiếm khoảng 78% thể tích khí quyển Trái Đất.'],['O','Oxygen','Duy trì hô hấp và nhiều quá trình cháy.'],['Na','Sodium','Ion Na⁺ giúp truyền tín hiệu thần kinh.'],['Si','Silicon','Vật liệu cốt lõi của chip và pin Mặt Trời.'],['Fe','Iron','Thành phần của thép và hemoglobin trong máu.'],['Cu','Copper','Dẫn điện tốt nên phổ biến trong dây điện.'],['Ag','Silver','Dẫn điện tốt nhất trong các kim loại.'],['Au','Gold','Bền hóa học và không dễ bị ăn mòn.']
+];
+const dailyReactions=[
+  ['Fe + CuSO₄ → FeSO₄ + Cu','Sắt đẩy đồng ra khỏi dung dịch muối.'],['2H₂ + O₂ → 2H₂O','Phản ứng tỏa nhiều nhiệt và tạo thành nước.'],['CaCO₃ → CaO + CO₂','Phản ứng nung đá vôi dùng trong sản xuất vôi.'],['HCl + NaOH → NaCl + H₂O','Phản ứng trung hòa giữa axit và bazơ.'],['2Mg + O₂ → 2MgO','Magnesium cháy với ánh sáng trắng chói.'],['AgNO₃ + NaCl → AgCl↓ + NaNO₃','Kết tủa AgCl màu trắng xuất hiện.'],['Zn + 2HCl → ZnCl₂ + H₂↑','Kim loại zinc giải phóng khí hydrogen.']
+];
+const dailyQuestions=['Nguyên tố nào có độ âm điện lớn nhất?','Vì sao kim loại dẫn điện được?','Chất xúc tác làm cân bằng chuyển dịch không?','Cathode là nơi xảy ra quá trình gì?','Số oxi hóa của S trong H₂SO₄ là bao nhiêu?'];
+const dayNumber=Math.floor(Date.now()/86400000),dailyElement=dailyElements[dayNumber%dailyElements.length],dailyReaction=dailyReactions[dayNumber%dailyReactions.length];
+document.querySelector('#daily-symbol').textContent=dailyElement[0];document.querySelector('#daily-element-name').textContent=dailyElement[1];document.querySelector('#daily-element-fact').textContent=dailyElement[2];document.querySelector('#daily-element-link').href=`periodic.html?element=${dailyElement[0]}`;document.querySelector('#daily-reaction').textContent=dailyReaction[0];document.querySelector('#daily-reaction-fact').textContent=dailyReaction[1];document.querySelector('#daily-question').textContent=dailyQuestions[dayNumber%dailyQuestions.length];
+
 document.querySelectorAll('.grade-filter button').forEach(button => {
   button.addEventListener('click', () => {
     document.querySelector('.grade-filter .active').classList.remove('active');
@@ -23,6 +40,8 @@ document.querySelectorAll('.grade-filter button').forEach(button => {
     });
   });
 });
+
+document.querySelectorAll('[data-map-grade]').forEach(link=>link.addEventListener('click',()=>{const button=document.querySelector(`.grade-filter button[data-grade="${link.dataset.mapGrade}"]`);button?.click()}));
 
 const quizBank = {
   atomic: { title: 'Cấu tạo nguyên tử', tip: 'Số electron của nguyên tử trung hòa bằng số proton.', questions: [

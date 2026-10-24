@@ -10,13 +10,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚗️</text></svg>">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="periodic.css?v=20261024-2">
+  <link rel="stylesheet" href="styles.css?v=20261024-3">
+  <link rel="stylesheet" href="periodic.css?v=20261024-3">
 </head>
 <body class="periodic-page">
   <header class="site-header periodic-header">
     <a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a>
-    <nav class="periodic-nav"><a href="lab.html">Phòng thí nghiệm</a><a class="back-home" href="index.html">← Về trang chủ</a></nav>
+    <nav class="periodic-nav"><a href="lab.html">Phòng thí nghiệm</a><button class="theme-toggle" type="button" aria-label="Chuyển chế độ sáng tối" title="Chế độ sáng/tối">☾</button><a class="back-home" href="index.html">← Về trang chủ</a></nav>
   </header>
   <main>
     <section class="periodic-hero">
@@ -48,12 +48,13 @@
           <div class="detail-wide"><dt>Cấu hình electron</dt><dd id="detail-config"></dd></div>
           <div><dt>Số oxi hóa thường gặp</dt><dd id="detail-oxidation"></dd></div><div><dt>Hóa trị thường gặp</dt><dd id="detail-valency"></dd></div>
         </dl>
+        <section class="bohr-card" aria-label="Mô hình phân bố electron"><img id="detail-bohr-image" alt=""><div><span>MÔ HÌNH BOHR</span><b id="detail-shells"></b><p>Phân bố electron theo từng lớp từ trong ra ngoài.</p></div></section>
         <section class="application-card" aria-label="Ứng dụng tiêu biểu"><img class="application-visual" id="detail-app-image" alt=""><div><span>ỨNG DỤNG TIÊU BIỂU</span><p id="detail-application"></p></div></section>
         <p class="detail-note">* Số oxi hóa và hóa trị liệt kê các giá trị thường gặp ở bậc THPT; một số nguyên tố siêu nặng mới chỉ có giá trị dự đoán.</p>
       </div>
     </dialog>
   </main>
   <footer><a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a><p>Trường THPT Xuân Phương</p><p>© 2026 Phòng Hóa Cô Huyền</p></footer>
-  <script src="periodic.js?v=20261024-2"></script>
+  <script src="periodic.js?v=20261024-3"></script>
 </body>
 </html>

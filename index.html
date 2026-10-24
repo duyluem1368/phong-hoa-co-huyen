@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261024-3">
 </head>
 <body>
   <header class="site-header">
@@ -29,12 +29,14 @@
       <a href="lab.html">Phòng thí nghiệm</a>
       <a href="#clinic">Hỏi bài</a>
       <a href="#about">Về cô Huyền</a>
+      <button class="theme-toggle" type="button" aria-label="Chuyển chế độ sáng tối" title="Chế độ sáng/tối">☾</button>
       <a class="nav-cta" href="#register">Đăng ký học</a>
     </nav>
   </header>
 
   <main>
     <section class="hero" id="home">
+      <div class="molecule-bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><span></span><span></span><span></span><span></span></div>
       <div class="hero-copy reveal">
         <span class="eyebrow">HÓA HỌC THPT • LỚP 10–12</span>
         <h1>Hiểu bản chất.<br><em>Nhớ thật lâu.</em></h1>
@@ -71,6 +73,24 @@
       <div><strong>96%</strong><span>Hiểu bài sau buổi học</span></div>
       <div><strong>120+</strong><span>Bài giảng miễn phí</span></div>
       <div><strong>8+</strong><span>Năm kinh nghiệm</span></div>
+    </section>
+
+    <section class="section discovery" id="discover">
+      <div class="section-heading reveal"><div><span class="eyebrow">MỖI NGÀY MỘT ĐIỀU THÚ VỊ</span><h2>Khám phá hôm nay</h2></div><p class="section-lead">Ba phút khám phá để Hóa học gần gũi hơn mỗi ngày.</p></div>
+      <div class="discovery-grid">
+        <a class="discovery-card element-of-day reveal" id="daily-element-link" href="periodic.html"><span class="discovery-label">NGUYÊN TỐ HÔM NAY</span><div class="daily-element"><strong id="daily-symbol">O</strong><div><b id="daily-element-name">Oxygen</b><p id="daily-element-fact">Khí duy trì sự hô hấp và sự cháy.</p></div></div><em>Khám phá nguyên tố →</em></a>
+        <a class="discovery-card reaction-of-day reveal" href="lab.html"><span class="discovery-label">PHẢN ỨNG HÔM NAY</span><div class="reaction-flask">⚗<i></i></div><h3 id="daily-reaction">Fe + CuSO₄ → FeSO₄ + Cu</h3><p id="daily-reaction-fact">Sắt đẩy đồng ra khỏi dung dịch muối.</p><em>Xem trong phòng thí nghiệm →</em></a>
+        <a class="discovery-card quick-challenge reveal" href="#quiz"><span class="discovery-label">THỬ THÁCH 30 GIÂY</span><div class="challenge-icon">?</div><h3 id="daily-question">Nguyên tố nào có độ âm điện lớn nhất?</h3><p>Chọn đáp án và xem giải thích ngay.</p><em>Trả lời câu hỏi →</em></a>
+      </div>
+    </section>
+
+    <section class="section learning-map" id="learning-map">
+      <div class="section-heading reveal"><div><span class="eyebrow">LỘ TRÌNH HỌC TẬP</span><h2>Bản đồ kiến thức 10–12</h2></div><p class="section-lead">Đi từ nền tảng đến vận dụng, thấy rõ mối liên hệ giữa các chương.</p></div>
+      <div class="map-track reveal">
+        <article class="map-grade grade-10"><span>10</span><div><b>NỀN TẢNG</b><h3>Nguyên tử → Liên kết → Phản ứng</h3><p>Cấu tạo nguyên tử • Bảng tuần hoàn • Liên kết hóa học • Oxi hóa–khử • Năng lượng</p></div><a href="#courses" data-map-grade="10">Xem lớp 10 →</a></article>
+        <article class="map-grade grade-11"><span>11</span><div><b>QUY LUẬT</b><h3>Cân bằng → Vô cơ → Hữu cơ</h3><p>Tốc độ và cân bằng • Dung dịch • Nitrogen–Sulfur • Hydrocarbon • Nhóm chức</p></div><a href="#courses" data-map-grade="11">Xem lớp 11 →</a></article>
+        <article class="map-grade grade-12"><span>12</span><div><b>VẬN DỤNG</b><h3>Hữu cơ → Kim loại → Điện hóa</h3><p>Ester–Lipid • Carbohydrate • Polymer • Kim loại • Pin điện và điện phân</p></div><a href="#courses" data-map-grade="12">Xem lớp 12 →</a></article>
+      </div>
     </section>
 
     <section class="section courses" id="courses">
@@ -153,6 +173,6 @@
   </main>
 
   <footer><a class="brand" href="#home"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a><p>Trường THPT Xuân Phương</p><p>© 2026 Phòng Hóa Cô Huyền</p></footer>
-  <script src="script.js"></script>
+  <script src="script.js?v=20261024-3"></script>
 </body>
 </html>
