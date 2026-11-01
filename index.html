@@ -86,6 +86,24 @@
       </div>
     </section>
 
+    <section class="section journey" id="journey">
+      <div class="journey-shell reveal">
+        <div class="journey-copy">
+          <span class="eyebrow">HÀNH TRÌNH CỦA EM</span>
+          <h2>Mỗi câu hỏi là<br><em>một cánh cửa mới.</em></h2>
+          <p>Không cần học hết trong một ngày. Chọn một nhiệm vụ nhỏ, khám phá một điều bất ngờ và để kiến thức tự nối thành bản đồ của riêng em.</p>
+          <div class="streak-line"><span class="streak-fire">✦</span><div><b id="streak-count">0 ngày</b><small>chuỗi khám phá liên tiếp</small></div></div>
+        </div>
+        <div class="mission-board" aria-label="Nhiệm vụ khám phá">
+          <div class="mission-head"><b>NHIỆM VỤ HÔM NAY</b><span id="mission-date">3 phút</span></div>
+          <button class="mission-item" data-mission="element"><span class="mission-icon purple">⚛</span><span><b>Gặp một nguyên tố</b><small>Khám phá tính chất và câu chuyện phía sau nó</small></span><i>→</i></button>
+          <button class="mission-item" data-mission="reaction"><span class="mission-icon teal">⚗</span><span><b>Giải mã một phản ứng</b><small>Nhìn thấy chất nào thay đổi và vì sao</small></span><i>→</i></button>
+          <button class="mission-item" data-mission="quiz"><span class="mission-icon coral">?</span><span><b>Thử thách bản thân</b><small>Trả lời một câu hỏi, sai cũng là dữ liệu</small></span><i>→</i></button>
+          <p class="mission-status" id="mission-status" aria-live="polite">Hoàn thành một nhiệm vụ để bắt đầu chuỗi ngày học.</p>
+        </div>
+      </div>
+    </section>
+
     <section class="section learning-map" id="learning-map">
       <div class="section-heading reveal"><div><span class="eyebrow">LỘ TRÌNH HỌC TẬP</span><h2>Bản đồ kiến thức 10–12</h2></div><p class="section-lead">Đi từ nền tảng đến vận dụng, thấy rõ mối liên hệ giữa các chương.</p></div>
       <div class="map-track reveal">
@@ -171,6 +189,16 @@
         <button class="button coral" type="submit">Nhận tư vấn miễn phí →</button>
         <p class="form-status" aria-live="polite"></p>
       </form>
+    </section>
+
+    <section class="section student-dashboard" id="student-dashboard" hidden>
+      <div class="section-heading"><div><span class="eyebrow">GÓC HỌC TẬP CỦA EM</span><h2 id="student-greeting">Xin chào!</h2></div><button class="dashboard-logout" id="student-logout" type="button">Đổi hồ sơ</button></div>
+      <div class="dashboard-grid">
+        <article class="dashboard-card progress-card"><span class="dashboard-icon">✦</span><small>TIẾN ĐỘ TỔNG</small><strong id="student-progress">0%</strong><div class="dashboard-progress"><span id="student-progress-bar"></span></div><p id="student-progress-copy">Hãy hoàn thành nhiệm vụ đầu tiên.</p></article>
+        <article class="dashboard-card"><span class="dashboard-icon teal">▣</span><small>LỊCH HỌC TIẾP THEO</small><strong id="student-next-date">Chưa đặt lịch</strong><p id="student-next-topic">Chọn mục tiêu để bắt đầu hành trình.</p><button class="small-action" id="student-schedule" type="button">Đặt lịch học</button></article>
+        <article class="dashboard-card"><span class="dashboard-icon coral">◎</span><small>ĐÁNH GIÁ GẦN NHẤT</small><strong id="student-score">Chưa có điểm</strong><p id="student-score-copy">Làm quiz để hệ thống đánh giá mức độ nắm bài.</p><a class="small-action" href="#quiz">Làm bài ngay →</a></article>
+      </div>
+      <div class="study-plan"><div><span class="eyebrow">KẾ HOẠCH CÁ NHÂN</span><h3 id="student-goal">Mục tiêu của em</h3><p id="student-plan-copy">Mỗi ngày một bước nhỏ, kiến thức sẽ thành hệ thống.</p></div><label>Ngày học tiếp theo<input id="student-date-input" type="date"></label></div>
     </section>
   </main>
 

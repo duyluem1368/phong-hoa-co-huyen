@@ -30,6 +30,31 @@ const dailyQuestions=['Nguyên tố nào có độ âm điện lớn nhất?','V
 const dayNumber=Math.floor(Date.now()/86400000),dailyElement=dailyElements[dayNumber%dailyElements.length],dailyReaction=dailyReactions[dayNumber%dailyReactions.length];
 document.querySelector('#daily-symbol').textContent=dailyElement[0];document.querySelector('#daily-element-name').textContent=dailyElement[1];document.querySelector('#daily-element-fact').textContent=dailyElement[2];document.querySelector('#daily-element-link').href=`periodic.html?element=${dailyElement[0]}`;document.querySelector('#daily-reaction').textContent=dailyReaction[0];document.querySelector('#daily-reaction-fact').textContent=dailyReaction[1];document.querySelector('#daily-question').textContent=dailyQuestions[dayNumber%dailyQuestions.length];
 
+// Nhiệm vụ nhỏ mỗi ngày: tạo lý do quay lại mà vẫn phục vụ mục tiêu học tập.
+const missionKey = `chem-missions-${new Date().toISOString().slice(0,10)}`;
+const missionState = JSON.parse(localStorage.getItem(missionKey) || '{}');
+const missionLinks = { element: '#discover', reaction: 'lab.html', quiz: '#quiz' };
+const missionLabels = { element: 'nguyên tố', reaction: 'phản ứng', quiz: 'thử thách' };
+const missionButtons = document.querySelectorAll('.mission-item');
+const streak = Number(localStorage.getItem('chem-streak') || 0);
+document.querySelector('#streak-count').textContent = `${streak} ngày`;
+missionButtons.forEach(button => {
+  const type = button.dataset.mission;
+  if (missionState[type]) button.classList.add('done');
+  button.addEventListener('click', () => {
+    missionState[type] = true;
+    localStorage.setItem(missionKey, JSON.stringify(missionState));
+    button.classList.add('done');
+    const done = Object.keys(missionState).length;
+    document.querySelector('#mission-status').textContent = done === 3
+      ? 'Tuyệt vời! Em đã hoàn thành đủ 3 nhiệm vụ hôm nay. Hẹn gặp em ở chương tiếp theo ✨'
+      : `Đã mở ${missionLabels[type]}. Còn ${3 - done} nhiệm vụ nhỏ để hoàn thành hôm nay.`;
+    const target = missionLinks[type];
+    if (target.startsWith('#')) document.querySelector(target)?.scrollIntoView({behavior:'smooth', block:'start'});
+    else window.location.href = target;
+  });
+});
+
 document.querySelectorAll('.grade-filter button').forEach(button => {
   button.addEventListener('click', () => {
     document.querySelector('.grade-filter .active').classList.remove('active');
@@ -250,6 +275,7 @@ function showQuizResult() {
   const quiz = quizBank[activeQuiz];
   const score = Math.round((correctCount / quiz.questions.length) * 10 * 10) / 10;
   const percent = Math.round((correctCount / quiz.questions.length) * 100);
+  localStorage.setItem('chem-latest-score', JSON.stringify({ topic: quiz.title, score, percent }));
   const card = document.querySelector('.quiz-card');
   card.classList.add('finished');
   card.innerHTML = `<div class="score-summary"><span class="eyebrow">HOÀN THÀNH CHUYÊN ĐỀ</span><h3>${quiz.title}</h3><div class="score-ring" style="--score-angle:${percent * 3.6}deg"><strong>${score}/10</strong></div><p>Em trả lời đúng <b>${correctCount}/${quiz.questions.length}</b> câu (${percent}%).</p><button class="quiz-next show" id="quiz-restart" type="button">↻ Làm lại chuyên đề</button></div>`;
@@ -279,11 +305,47 @@ document.querySelectorAll('[data-topic]').forEach(link => link.addEventListener(
 }));
 renderQuiz();
 
+const studentStoreKey = 'phong-hoa-student-profile';
+const studentDashboard = document.querySelector('#student-dashboard');
+const studentProfile = JSON.parse(localStorage.getItem(studentStoreKey) || 'null');
+function loadStudentDashboard(profile) {
+  if (!profile || !studentDashboard) return;
+  studentDashboard.hidden = false;
+  document.querySelector('#student-greeting').textContent = `Xin chào, ${profile.name}!`;
+  document.querySelector('#student-goal').textContent = `${profile.grade} • Mục tiêu học chắc Hóa`;
+  const missions = Object.keys(JSON.parse(localStorage.getItem(`chem-missions-${new Date().toISOString().slice(0,10)}`) || '{}')).length;
+  const progress = Math.round((missions / 3) * 100);
+  document.querySelector('#student-progress').textContent = `${progress}%`;
+  document.querySelector('#student-progress-bar').style.width = `${progress}%`;
+  document.querySelector('#student-progress-copy').textContent = progress ? `Em đã hoàn thành ${missions}/3 nhiệm vụ hôm nay.` : 'Hãy hoàn thành nhiệm vụ đầu tiên.';
+  if (profile.nextDate) document.querySelector('#student-next-date').textContent = new Date(profile.nextDate + 'T00:00:00').toLocaleDateString('vi-VN');
+  document.querySelector('#student-next-topic').textContent = profile.topic || 'Ôn một chuyên đề trong bản đồ kiến thức.';
+  const latest = JSON.parse(localStorage.getItem('chem-latest-score') || 'null');
+  if (latest) { document.querySelector('#student-score').textContent = `${latest.score}/10`; document.querySelector('#student-score-copy').textContent = `${latest.topic} • ${latest.percent}% câu đúng`; }
+  document.querySelector('#student-date-input').value = profile.nextDate || '';
+}
+loadStudentDashboard(studentProfile);
 document.querySelector('#register-form').addEventListener('submit', event => {
   event.preventDefault();
-  const name = new FormData(event.target).get('name').trim();
-  document.querySelector('.form-status').textContent = `Cảm ơn ${name}! Cô sẽ liên hệ tư vấn sớm nhé.`;
+  const data = new FormData(event.target);
+  const profile = { name: data.get('name').trim(), phone: data.get('phone').trim(), grade: data.get('grade'), topic: 'Bắt đầu từ bản đồ kiến thức', nextDate: '' };
+  localStorage.setItem(studentStoreKey, JSON.stringify(profile));
+  document.querySelector('.form-status').textContent = `Đã tạo góc học tập cho ${profile.name}. Thông tin được lưu trên thiết bị này.`;
+  loadStudentDashboard(profile);
+  document.querySelector('#student-dashboard').scrollIntoView({ behavior: 'smooth', block: 'start' });
   event.target.reset();
+});
+document.querySelector('#student-date-input')?.addEventListener('change', event => {
+  const profile = JSON.parse(localStorage.getItem(studentStoreKey) || 'null');
+  if (!profile) return;
+  profile.nextDate = event.target.value;
+  localStorage.setItem(studentStoreKey, JSON.stringify(profile));
+  loadStudentDashboard(profile);
+});
+document.querySelector('#student-logout')?.addEventListener('click', () => {
+  localStorage.removeItem(studentStoreKey);
+  studentDashboard.hidden = true;
+  document.querySelector('#register').scrollIntoView({ behavior: 'smooth' });
 });
 
 const observer = new IntersectionObserver(entries => {
