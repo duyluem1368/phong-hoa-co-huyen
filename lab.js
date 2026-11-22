@@ -417,6 +417,8 @@ document.querySelector('#chemical-search').addEventListener('input',e=>renderChe
 document.querySelectorAll('.category-tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelector('.category-tabs .active').classList.remove('active');b.classList.add('active');activeCategory=b.dataset.category;renderChemicals(document.querySelector('#chemical-search').value);}));
 document.querySelector('#clear-btn').addEventListener('click',clearLab); document.querySelector('#run-btn').addEventListener('click',runReaction);
 document.querySelectorAll('.challenge-list button').forEach(b=>b.addEventListener('click',()=>{chosen=[b.dataset.a,b.dataset.b];updateSlots();renderChemicals();document.querySelector('.lab-workspace').scrollIntoView({behavior:'smooth'});}));
+window.reactions = reactions;
+window.labChosen = () => chosen.slice();
 renderChemicals();
 
 setTimeout(() => {
