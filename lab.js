@@ -392,6 +392,7 @@ function runReaction(){
   setTimeout(()=>showResult(reaction, fallback, condition, excessChemical),1600);
 }
 function showResult(r,fallback,condition,excessChemical=''){
+  window.currentReactionResult = r || null;
   const panel=document.querySelector('#result-panel'); const v=document.querySelector('#vessel');
   const area=document.querySelector('.experiment-area'); area.classList.remove('reacting'); document.querySelector('#run-btn').disabled=false;
   if(!r&&fallback){area.classList.add('reaction-none');document.querySelector('#reaction-status').textContent='Chưa đủ điều kiện phản ứng';const available=[...new Set(reactions.filter(x=>normalizePair(x.a,x.b)===normalizePair(...chosen)).map(x=>x.excess?`${x.excess} dư`:conditionName(x.condition)))].join(', ');panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">CẦN ĐIỀU KIỆN KHÁC</span><h2>Phản ứng chưa xảy ra</h2></div><span class="result-badge none">Đổi điều kiện</span></div><div class="equation">Điều kiện phù hợp: ${available}</div><div class="result-item"><small>GỢI Ý</small><p>Điều kiện và tỉ lệ chất là một phần quan trọng của phương trình hóa học.</p></div>`;return;}
@@ -408,6 +409,7 @@ function showResult(r,fallback,condition,excessChemical=''){
   const warning=r.danger?`<div class="danger-warning"><b>⚠ Cảnh báo an toàn:</b> ${r.danger}</div>`:'';
   panel.innerHTML=`<div class="result-head"><div><span class="eyebrow">KẾT QUẢ THÍ NGHIỆM</span><h2>${r.type==='none'?'Không có phản ứng rõ rệt':'Phản ứng đã xảy ra'}</h2></div><span class="result-badge ${r.type==='none'?'none':''}">${labelType(r.type)}</span></div><div class="equation"><small>PHƯƠNG TRÌNH HÓA HỌC</small>${formatEquation(r.equation)}</div><div class="result-grid"><div class="result-item"><small>HIỆN TƯỢNG</small><p>${r.phenomenon}</p></div><div class="result-item"><small>BẢN CHẤT</small><p>${r.explain}</p></div><div class="result-item"><small>ĐIỀU KIỆN / TỈ LỆ</small><p>${excessChemical?`${excessChemical} dư`:conditionName(condition)}</p></div></div>${warning}`;
   panel.scrollIntoView({behavior:'smooth',block:'center'});
+  document.dispatchEvent(new CustomEvent('reaction-result-ready',{detail:{reaction:r, condition:condition, pair:chosen.slice()}}));
 }
 function labelType(type){return({gas:'Có khí thoát ra',precipitate:'Tạo kết tủa',color:'Đổi màu',heat:'Tỏa nhiệt / cháy',absorb:'Khí bị hấp thụ',equilibrium:'Phản ứng thuận nghịch',none:'Không phản ứng'})[type]||'Phản ứng';}
 function conditionName(condition){return({normal:'Điều kiện thường',heat:'Đun nóng',burn:'Đốt cháy trong O₂'})[condition]||'Điều kiện thường';}

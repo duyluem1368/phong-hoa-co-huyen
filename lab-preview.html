@@ -147,14 +147,16 @@
       '<p><b>Phương trình:</b> '+reaction.equation+'</p>'+
       '<p><b>Bản chất:</b> '+reaction.explain+'</p>';
   }
+  let completedReaction=null;
   function evaluate(){
-    const reaction=currentReaction();
+    const reaction=completedReaction;
     if(!reaction){state.textContent='Chọn hai chất trước';state.className='pred-state no';feedback.hidden=false;feedback.className='pred-feedback no';feedback.innerHTML='<b>Chưa thể chấm</b><p>Hãy chọn hai hóa chất, nhập dự đoán rồi tiến hành thí nghiệm.</p>';return;}
     const result=window.PredictionCore.evaluatePrediction(input.value,reaction.type); show(result,reaction);
   }
   check.addEventListener('click',evaluate);
+  document.addEventListener('reaction-result-ready', (ev)=>{ completedReaction=ev.detail.reaction; if(completedReaction){ state.textContent='Sẵn sàng đối chiếu'; state.className='pred-state'; } });
   reset.addEventListener('click',()=>{input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;input.focus();});
-  document.querySelector('#clear-btn').addEventListener('click',()=>{input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;});
+  document.querySelector('#clear-btn').addEventListener('click',()=>{completedReaction=null;input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;});
   // lab.js giữ trạng thái ở biến cục bộ; bridge nhẹ nhàng để bộ chấm đọc được.
   window.__labChosen=[]; window.__labReactions=[];
   const oldRender=window.renderChemicals;
