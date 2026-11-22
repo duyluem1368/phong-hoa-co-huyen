@@ -13,7 +13,11 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="lab.css">
   <link rel="stylesheet" href="protection.css?v=20261024-1">
-<style>.guided-demo{margin:0 max(7vw,32px) 18px;padding:19px 22px;border:1px solid #ddd4f2;background:linear-gradient(110deg,#fbf9ff,#f2eefc);border-radius:18px;display:flex;justify-content:space-between;gap:24px;align-items:center}.guided-demo h2{font-family:"DM Serif Display";font-weight:400;font-size:28px;margin:5px 0}.guided-demo p{margin:0;color:var(--muted);font-size:11px}.guided-steps{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:330px}.guided-steps span{padding:9px 11px;border-radius:9px;background:#fff;color:var(--purple);font-size:10px;font-weight:700}.guided-steps span:first-child{background:var(--purple);color:#fff}@media(max-width:700px){.guided-demo{margin:0 22px 18px;display:block}.guided-steps{min-width:0;margin-top:14px;grid-template-columns:1fr}}</style></head>
+<style>.guided-demo{margin:0 max(7vw,32px) 18px;padding:19px 22px;border:1px solid #ddd4f2;background:linear-gradient(110deg,#fbf9ff,#f2eefc);border-radius:18px;display:flex;justify-content:space-between;gap:24px;align-items:center}.guided-demo h2{font-family:"DM Serif Display";font-weight:400;font-size:28px;margin:5px 0}.guided-demo p{margin:0;color:var(--muted);font-size:11px}.guided-steps{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:330px}.guided-steps span{padding:9px 11px;border-radius:9px;background:#fff;color:var(--purple);font-size:10px;font-weight:700}.guided-steps span:first-child{background:var(--purple);color:#fff}@media(max-width:700px){.guided-demo{margin:0 22px 18px;display:block}.guided-steps{min-width:0;margin-top:14px;grid-template-columns:1fr}}
+.prediction-box{background:#fff9e8;border:1px solid #e5d9af;padding:15px;border-radius:12px;margin:15px 0}
+.prediction-box label{font-weight:700;color:#7f7350;font-size:11px;display:block;margin-bottom:8px}
+.prediction-box textarea{width:100%;border:1px solid #e5d9af;border-radius:8px;padding:8px;font-size:11px;height:50px;resize:none}
+</style></head>
 <body class="lab-page">
   <header class="site-header lab-header">
     <a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a>
@@ -45,7 +49,10 @@
 
       <div class="experiment-area">
         <div class="step-label">BÀN THÍ NGHIỆM</div>
-        <div class="selection-slots">
+        <div class="prediction-box" id="prediction-box">
+          <label>Dự đoán hiện tượng trước khi tiến hành:</label>
+          <textarea id="prediction-input" placeholder="Ví dụ: sủi bọt, kết tủa trắng..."></textarea>
+        </div>        <div class="selection-slots">
           <div class="slot" id="slot-a"><span class="slot-number">1</span><div><small>CHẤT THỨ NHẤT</small><b>Chưa chọn</b></div></div>
           <span class="plus">+</span>
           <div class="slot" id="slot-b"><span class="slot-number">2</span><div><small>CHẤT THỨ HAI</small><b>Chưa chọn</b></div></div>
@@ -90,5 +97,15 @@
   <footer><a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a><p>Trường THPT Xuân Phương</p><p>© 2026 Cô Huyền Hóa • Bảo lưu mọi quyền</p></footer>
   <script src="lab.js"></script>
   <script type="module" src="lab3d.js"></script>
-<script src="protection.js?v=20261024-1"></script></body>
+<script src="protection.js?v=20261024-1"></script>
+<script>
+document.querySelector('#run-btn').addEventListener('click', () => {
+    const pred = document.querySelector('#prediction-input').value;
+    if(pred) {
+        console.log("Dự đoán của học sinh:", pred);
+        // Có thể hiện thêm thông báo "Dự đoán đã ghi lại"
+    }
+});
+</script>
+</body>
 </html>
