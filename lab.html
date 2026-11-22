@@ -13,7 +13,32 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="lab.css">
   <link rel="stylesheet" href="protection.css?v=20261024-1">
-</head>
+<style>.guided-demo{margin:0 max(7vw,32px) 18px;padding:19px 22px;border:1px solid #ddd4f2;background:linear-gradient(110deg,#fbf9ff,#f2eefc);border-radius:18px;display:flex;justify-content:space-between;gap:24px;align-items:center}.guided-demo h2{font-family:"DM Serif Display";font-weight:400;font-size:28px;margin:5px 0}.guided-demo p{margin:0;color:var(--muted);font-size:11px}.guided-steps{display:grid;grid-template-columns:1fr 1fr;gap:8px;min-width:330px}.guided-steps span{padding:9px 11px;border-radius:9px;background:#fff;color:var(--purple);font-size:10px;font-weight:700}.guided-steps span:first-child{background:var(--purple);color:#fff}@media(max-width:700px){.guided-demo{margin:0 22px 18px;display:block}.guided-steps{min-width:0;margin-top:14px;grid-template-columns:1fr}}
+.prediction-box{background:#fff9e8;border:1px solid #e5d9af;padding:15px;border-radius:12px;margin:15px 0}
+.prediction-box label{font-weight:700;color:#7f7350;font-size:11px;display:block;margin-bottom:8px}
+.prediction-box textarea{width:100%;border:1px solid #e5d9af;border-radius:8px;padding:8px;font-size:11px;height:50px;resize:none}
+</style><style>
+.prediction-box{background:linear-gradient(135deg,#fffaf0,#fff4e2);border:1px solid #e8d7ab;padding:16px;border-radius:14px;margin:16px 0 18px;box-shadow:0 8px 22px rgba(127,115,80,.08)}
+.pred-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+.prediction-box label{font-weight:800;color:#7a6a3a;font-size:12px}
+.pred-state{font-size:9px;font-weight:800;padding:4px 10px;border-radius:20px;background:#efe7d6;color:#8a7b55;white-space:nowrap}
+.pred-state.ok{background:#e0f4e8;color:#1f7a54}
+.pred-state.no{background:#fde7e5;color:#b1382f}
+.prediction-box textarea{width:100%;border:1px solid #e8d7ab;border-radius:9px;padding:9px 11px;font-size:12px;height:54px;resize:vertical;outline:none;font-family:inherit;background:#fff}
+.prediction-box textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(118,87,213,.12)}
+.pred-actions{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.pred-check-btn{border:0;border-radius:9px;background:var(--purple);color:#fff;font-weight:800;font-size:11px;padding:9px 15px;cursor:pointer;box-shadow:0 6px 16px rgba(118,87,213,.25)}
+.pred-check-btn:hover{filter:brightness(1.06)}.pred-check-btn:disabled{background:#aaa3b6;box-shadow:none;cursor:not-allowed}
+.pred-reset-btn{border:1px solid #ddd0ac;background:#fff;color:#8a7b55;font-weight:700;font-size:11px;padding:9px 13px;border-radius:9px;cursor:pointer}
+.pred-feedback{margin-top:11px;padding:13px 15px;border-radius:11px;font-size:12px;line-height:1.6;background:#f7f5f0;border:1px solid #ece7db;color:#4b5468}
+.pred-feedback.ok{background:#eef9f2;border-color:#cfe9db;color:#1f6b4a}
+.pred-feedback.no{background:#fdf0ee;border-color:#f4d3ce;color:#a03a31}
+.pred-feedback b{display:block;font-size:13px;margin-bottom:5px}
+.pred-feedback ul{margin:6px 0 0;padding-left:20px}
+.pred-feedback li{margin:2px 0}
+.pred-feedback .kw{background:#fff;border:1px solid currentColor;border-radius:6px;padding:1px 6px;font-size:10px;font-weight:700;display:inline-block;margin:2px 4px 0 0}
+@media(max-width:620px){.pred-head{flex-direction:column;align-items:start}}
+</style></head>
 <body class="lab-page">
   <header class="site-header lab-header">
     <a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a>
@@ -28,6 +53,11 @@
 
     <section class="safety-note"><span>✓</span><div><b>Môi trường học tập an toàn</b><p>Đây là mô phỏng giáo dục, không thay thế thí nghiệm thật. Không tự ý trộn hóa chất ngoài đời thực.</p></div></section>
 
+    <section class="guided-demo" aria-label="Bài thực hành mẫu">
+      <div><span class="eyebrow">BÀI THỰC HÀNH MẪU</span><h2>Nhận biết ion Cl⁻ bằng AgNO₃</h2><p>Dự đoán hiện tượng trước, chọn hai chất ở kệ hóa chất rồi tự giải thích vì sao phản ứng xảy ra.</p></div>
+      <div class="guided-steps"><span>01 · Dự đoán</span><span>02 · Chọn AgNO₃ + NaCl</span><span>03 · Quan sát kết tủa</span><span>04 · Viết phương trình ion</span></div>
+    </section>
+
     <section class="lab-workspace">
       <aside class="chemical-shelf">
         <div class="shelf-title"><div><span class="eyebrow">KỆ HÓA CHẤT</span><h2>Chọn chất</h2></div><button id="clear-btn" type="button">Làm lại</button></div>
@@ -40,7 +70,15 @@
 
       <div class="experiment-area">
         <div class="step-label">BÀN THÍ NGHIỆM</div>
-        <div class="selection-slots">
+        <div class="prediction-box" id="prediction-box">
+          <div class="pred-head"><label for="prediction-input">✍ Dự đoán hiện tượng trước khi tiến hành</label><span id="pred-state" class="pred-state">Chưa dự đoán</span></div>
+          <textarea id="prediction-input" placeholder="Ví dụ: sủi bọt khí, xuất hiện kết tủa trắng, dung dịch đổi màu..."></textarea>
+          <div class="pred-actions">
+            <button type="button" class="pred-check-btn" id="pred-check-btn" disabled>Chờ tiến hành phản ứng</button>
+            <button type="button" class="pred-reset-btn" id="pred-reset-btn">Dự đoán lại</button>
+          </div>
+          <div id="prediction-feedback" class="pred-feedback" hidden></div>
+        </div>        <div class="selection-slots">
           <div class="slot" id="slot-a"><span class="slot-number">1</span><div><small>CHẤT THỨ NHẤT</small><b>Chưa chọn</b></div></div>
           <span class="plus">+</span>
           <div class="slot" id="slot-b"><span class="slot-number">2</span><div><small>CHẤT THỨ HAI</small><b>Chưa chọn</b></div></div>
@@ -83,7 +121,61 @@
     </section>
   </main>
   <footer><a class="brand" href="index.html"><span class="brand-mark">⚗</span><span>Phòng Hóa <b>Cô Huyền</b></span></a><p>Trường THPT Xuân Phương</p><p>© 2026 Cô Huyền Hóa • Bảo lưu mọi quyền</p></footer>
+  <script src="pred-core.js"></script>
   <script src="lab.js"></script>
   <script type="module" src="lab3d.js"></script>
-<script src="protection.js?v=20261024-1"></script></body>
+<script src="protection.js?v=20261024-1"></script>
+<script>
+(function(){
+  const input=document.querySelector('#prediction-input'), state=document.querySelector('#pred-state'), feedback=document.querySelector('#prediction-feedback');
+  const check=document.querySelector('#pred-check-btn'), reset=document.querySelector('#pred-reset-btn');
+  function currentReaction(){
+    const chosenNow=window.labChosen?window.labChosen():[];
+    const condition=document.querySelector('#condition').value;
+    const list=(window.__labReactions||[]).filter(r=>[r.a,r.b].sort().join('|')===chosenNow.slice().sort().join('|'));
+    return list.find(r=>r.condition===condition)||list.find(r=>r.condition==='normal')||list[0]||null;
+  }
+  function show(result,reaction){
+    const ok=result.correct, unclear=result.status==='unclear';
+    state.textContent=ok?'✓ Dự đoán đúng':(unclear?'? Chưa đủ rõ':'✗ Dự đoán chưa đúng');
+    state.className='pred-state '+(ok?'ok':(unclear?'':'no'));
+    const hint=window.PredictionCore.PHENOMENA[reaction.type]?.hint||'xem lại hiện tượng trong kết quả';
+    feedback.hidden=false; feedback.className='pred-feedback '+(ok?'ok':'no');
+    feedback.innerHTML='<b>'+ (ok?'Chính xác!':(unclear?'Hãy bổ sung thêm chi tiết':'Chưa chính xác — cùng kiểm tra lại nhé')) +'</b>'+
+      '<p><b>Hiện tượng đúng:</b> '+reaction.phenomenon+'</p>'+
+      '<p><b>Gợi ý:</b> '+hint+'</p>'+
+      '<p><b>Phương trình:</b> '+reaction.equation+'</p>'+
+      '<p><b>Bản chất:</b> '+reaction.explain+'</p>';
+  }
+  let completedReaction=null;
+  function evaluate(){
+    const reaction=completedReaction;
+    if(!reaction){state.textContent='Chọn hai chất trước';state.className='pred-state no';feedback.hidden=false;feedback.className='pred-feedback no';feedback.innerHTML='<b>Chưa thể chấm</b><p>Hãy chọn hai hóa chất, nhập dự đoán rồi tiến hành thí nghiệm.</p>';return;}
+    const result=window.PredictionCore.evaluatePrediction(input.value,reaction.type); show(result,reaction);
+  }
+  check.addEventListener('click',evaluate);
+  document.addEventListener('reaction-result-ready', (ev)=>{
+    completedReaction=ev.detail.reaction;
+    if(completedReaction){
+      check.disabled=false; check.textContent='Kiểm tra dự đoán với kết quả';
+      state.textContent='Đã có kết quả '+ev.detail.pair.join(' + '); state.className='pred-state';
+      evaluate();
+    }
+  });
+  document.addEventListener('reaction-started',()=>{completedReaction=null;check.disabled=true;check.textContent='Đang tiến hành phản ứng…';feedback.hidden=true;state.textContent='Đang quan sát…';state.className='pred-state';});
+  document.addEventListener('lab-selection-changed',(ev)=>{completedReaction=null;check.disabled=true;check.textContent='Chờ tiến hành phản ứng';feedback.hidden=true;state.textContent=ev.detail.pair.length===2?'Đã chọn '+ev.detail.pair.join(' + '):'Chưa chọn đủ chất';state.className='pred-state';});
+  reset.addEventListener('click',()=>{input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;input.focus();});
+  document.querySelector('#clear-btn').addEventListener('click',()=>{completedReaction=null;check.disabled=true;check.textContent='Chờ tiến hành phản ứng';input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;});
+  // lab.js giữ trạng thái ở biến cục bộ; bridge nhẹ nhàng để bộ chấm đọc được.
+  window.__labChosen=[]; window.__labReactions=[];
+  const oldRender=window.renderChemicals;
+  // Các nút chọn/challenge được theo dõi để đồng bộ cặp chất.
+  document.addEventListener('click',()=>setTimeout(()=>{
+    try{ window.__labChosen = Array.from(document.querySelectorAll('.slot b')).map(x=>x.textContent.replace(/[₀-₉]/g,'')).filter(x=>x!=='Chưa chọn'); }catch(e){}
+  },0));
+  // Dữ liệu được lộ từ lab.js ở cuối file bởi bridge dưới đây.
+  setTimeout(()=>{window.__labReactions=window.reactions||[];},0);
+})();
+</script>
+</body>
 </html>
