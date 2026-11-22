@@ -364,6 +364,8 @@ function formatEquation(equation){return equation;}
 function choose(id){
   if(chosen.includes(id)) chosen=chosen.filter(x=>x!==id); else if(chosen.length<2) chosen.push(id); else chosen=[chosen[1],id];
   updateSlots(); renderChemicals(document.querySelector('#chemical-search').value);
+  window.currentReactionResult=null;
+  document.dispatchEvent(new CustomEvent('lab-selection-changed',{detail:{pair:chosen.slice()}}));
 }
 function updateSlots(){
   ['a','b'].forEach((key,i)=>{const el=document.querySelector(`#slot-${key} b`);el.innerHTML=chosen[i]?format(chosen[i]):'Chưa chọn';});
@@ -376,6 +378,8 @@ function updateSlots(){
 function clearLab(){chosen=[];updateSlots();renderChemicals();document.querySelector('#result-panel').innerHTML='<div class="empty-result"><span>⌁</span><h2>Chưa có thí nghiệm</h2><p>Chọn hai chất ở kệ bên trái, sau đó nhấn “Tiến hành phản ứng”.</p></div>';resetVessel();}
 function resetVessel(){const v=document.querySelector('#vessel');v.className='reaction-vessel';v.querySelector('.solution').style.background='#cfeef1';document.querySelector('.burner').classList.remove('on');document.querySelector('.experiment-area').classList.remove('reacting','reaction-strong','reaction-color','reaction-none');document.querySelector('#reaction-status').textContent='Sẵn sàng thí nghiệm';const liveEquation=document.querySelector('#reaction-equation-live');liveEquation.hidden=true;liveEquation.innerHTML='';window.lab3D?.reset();}
 function runReaction(){
+  window.currentReactionResult=null;
+  document.dispatchEvent(new CustomEvent('reaction-started',{detail:{pair:chosen.slice()}}));
   resetVessel(); const condition=document.querySelector('#condition').value;
   const candidates=reactions.filter(r=>normalizePair(r.a,r.b)===normalizePair(...chosen));
   const excessChemical=condition==='excess_first'?chosen[0]:condition==='excess_second'?chosen[1]:'';

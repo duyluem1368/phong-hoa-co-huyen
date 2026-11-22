@@ -28,7 +28,7 @@
 .prediction-box textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(118,87,213,.12)}
 .pred-actions{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
 .pred-check-btn{border:0;border-radius:9px;background:var(--purple);color:#fff;font-weight:800;font-size:11px;padding:9px 15px;cursor:pointer;box-shadow:0 6px 16px rgba(118,87,213,.25)}
-.pred-check-btn:hover{filter:brightness(1.06)}
+.pred-check-btn:hover{filter:brightness(1.06)}.pred-check-btn:disabled{background:#aaa3b6;box-shadow:none;cursor:not-allowed}
 .pred-reset-btn{border:1px solid #ddd0ac;background:#fff;color:#8a7b55;font-weight:700;font-size:11px;padding:9px 13px;border-radius:9px;cursor:pointer}
 .pred-feedback{margin-top:11px;padding:13px 15px;border-radius:11px;font-size:12px;line-height:1.6;background:#f7f5f0;border:1px solid #ece7db;color:#4b5468}
 .pred-feedback.ok{background:#eef9f2;border-color:#cfe9db;color:#1f6b4a}
@@ -74,7 +74,7 @@
           <div class="pred-head"><label for="prediction-input">✍ Dự đoán hiện tượng trước khi tiến hành</label><span id="pred-state" class="pred-state">Chưa dự đoán</span></div>
           <textarea id="prediction-input" placeholder="Ví dụ: sủi bọt khí, xuất hiện kết tủa trắng, dung dịch đổi màu..."></textarea>
           <div class="pred-actions">
-            <button type="button" class="pred-check-btn" id="pred-check-btn">Kiểm tra dự đoán</button>
+            <button type="button" class="pred-check-btn" id="pred-check-btn" disabled>Chờ tiến hành phản ứng</button>
             <button type="button" class="pred-reset-btn" id="pred-reset-btn">Dự đoán lại</button>
           </div>
           <div id="prediction-feedback" class="pred-feedback" hidden></div>
@@ -154,9 +154,18 @@
     const result=window.PredictionCore.evaluatePrediction(input.value,reaction.type); show(result,reaction);
   }
   check.addEventListener('click',evaluate);
-  document.addEventListener('reaction-result-ready', (ev)=>{ completedReaction=ev.detail.reaction; if(completedReaction){ state.textContent='Sẵn sàng đối chiếu'; state.className='pred-state'; } });
+  document.addEventListener('reaction-result-ready', (ev)=>{
+    completedReaction=ev.detail.reaction;
+    if(completedReaction){
+      check.disabled=false; check.textContent='Kiểm tra dự đoán với kết quả';
+      state.textContent='Đã có kết quả '+ev.detail.pair.join(' + '); state.className='pred-state';
+      evaluate();
+    }
+  });
+  document.addEventListener('reaction-started',()=>{completedReaction=null;check.disabled=true;check.textContent='Đang tiến hành phản ứng…';feedback.hidden=true;state.textContent='Đang quan sát…';state.className='pred-state';});
+  document.addEventListener('lab-selection-changed',(ev)=>{completedReaction=null;check.disabled=true;check.textContent='Chờ tiến hành phản ứng';feedback.hidden=true;state.textContent=ev.detail.pair.length===2?'Đã chọn '+ev.detail.pair.join(' + '):'Chưa chọn đủ chất';state.className='pred-state';});
   reset.addEventListener('click',()=>{input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;input.focus();});
-  document.querySelector('#clear-btn').addEventListener('click',()=>{completedReaction=null;input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;});
+  document.querySelector('#clear-btn').addEventListener('click',()=>{completedReaction=null;check.disabled=true;check.textContent='Chờ tiến hành phản ứng';input.value='';state.textContent='Chưa dự đoán';state.className='pred-state';feedback.hidden=true;});
   // lab.js giữ trạng thái ở biến cục bộ; bridge nhẹ nhàng để bộ chấm đọc được.
   window.__labChosen=[]; window.__labReactions=[];
   const oldRender=window.renderChemicals;
